@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Enums\TipoUsuario;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -15,6 +16,12 @@ return new class extends Migration {
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $tipoUsuario = array_map(
+                fn(TipoUsuario $enum) => $enum->value,
+                TipoUsuario::cases()
+            );
+            $table->enum(column: 'tipo', allowed: $tipoUsuario)
+                ->comment(implode(' | ', $tipoUsuario));
             $table->rememberToken();
             $table->timestamps();
         });

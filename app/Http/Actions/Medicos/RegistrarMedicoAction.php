@@ -2,6 +2,7 @@
 
 namespace App\Http\Actions\Medicos;
 
+use App\Http\Enums\TipoUsuario;
 use App\Models\Medico;
 use App\Models\User;
 
@@ -20,6 +21,7 @@ class RegistrarMedicoAction
                 'nome' => $nome,
                 'email' => $email,
                 'password' => bcrypt($password),
+                'tipo' => TipoUsuario::MEDICO->value,
             ]);
 
         Medico::query()

@@ -31,6 +31,7 @@ class RegisterMedicosE2eTest extends TestCase
 
         $this->assertDatabaseHas('users', [
             'email' => 'email@email.com',
+            'tipo' => 'medico',
         ]);
         $this->assertDatabaseHas('medicos', [
             'nome' => 'John Doe',
