@@ -10,7 +10,7 @@ Route::get('/user', function (Request $request) {
 
 Route::prefix('v1')->group(function () {
     Route::prefix('medicos')->group(function () {
-        Route::post('/', [RegistrarMedicoController::class, '__invoke'])
+        Route::post('/register', [RegistrarMedicoController::class, '__invoke'])
             ->name('medicos.register');
     });
 });
