@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\V1\Auth\Medico\RegistrarMedicoController;
 use App\Http\Controllers\Api\V1\Auth\Paciente\LoginPacienteController;
 use App\Http\Controllers\Api\V1\Auth\Paciente\LogoutPacienteController;
 use App\Http\Controllers\Api\V1\Auth\Paciente\RegistrarPacienteController;
+use App\Http\Controllers\Api\V1\Pacientes\Medicos\ListarMedicosController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -32,6 +33,8 @@ Route::prefix('v1')->group(function () {
         Route::middleware(['auth:sanctum', 'abilities:paciente'])->group(function () {
             Route::post('/logout', [LogoutPacienteController::class, '__invoke'])
                 ->name('pacientes.logout');
+            Route::get('medicos', [ListarMedicosController::class, '__invoke'])
+                ->name('pacientes.medicos.listar');
         });
     });
 });
