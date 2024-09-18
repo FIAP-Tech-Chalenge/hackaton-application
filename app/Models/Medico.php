@@ -6,10 +6,10 @@ use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Medico extends Model
 {
-    use HasFactory;
     use HasFactory;
     use HasUuids;
 
@@ -28,6 +28,11 @@ class Medico extends Model
 
     public function user(): BelongsTo
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'user_uuid', 'uuid');
+    }
+
+    public function horariosDisponiveis(): HasMany
+    {
+        return $this->hasMany(HorarioDisponivel::class, 'medico_uuid', 'uuid');
     }
 }

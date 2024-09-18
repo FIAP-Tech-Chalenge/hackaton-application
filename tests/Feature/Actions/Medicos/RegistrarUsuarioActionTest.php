@@ -3,8 +3,8 @@
 namespace Tests\Feature\Actions\Medicos;
 
 // use Illuminate\Foundation\Testing\RefreshDatabase;
-use App\Http\Actions\Medicos\RegistrarMedicoAction;
-use App\Http\Enums\TipoUsuario;
+use App\Enums\TipoUsuarioEnum;
+use App\Infra\Actions\Medicos\RegistrarMedicoAction;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
@@ -27,7 +27,7 @@ class RegistrarUsuarioActionTest extends TestCase
         // Assert
         $this->assertDatabaseHas('users', [
             'email' => 'email@email',
-            'tipo' => TipoUsuario::MEDICO->value,
+            'tipo' => TipoUsuarioEnum::MEDICO->value,
         ]);
 
         $this->assertDatabaseHas('medicos', [

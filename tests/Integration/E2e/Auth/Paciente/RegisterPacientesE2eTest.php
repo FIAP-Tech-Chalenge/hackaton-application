@@ -2,7 +2,7 @@
 
 namespace Tests\Integration\E2e\Auth\Paciente;
 
-use App\Http\Enums\TipoUsuario;
+use App\Enums\TipoUsuarioEnum;
 use App\Models\Paciente;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use PHPUnit\Framework\Attributes\Group;
@@ -31,7 +31,7 @@ class RegisterPacientesE2eTest extends TestCase
 
         $this->assertDatabaseHas('users', [
             'email' => 'email@email.com',
-            'tipo' => TipoUsuario::PACIENTE->value,
+            'tipo' => TipoUsuarioEnum::PACIENTE->value,
         ]);
         $this->assertDatabaseHas('pacientes', [
             'nome' => 'John Doe',

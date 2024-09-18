@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Api\V1\Auth\Paciente;
 
+use App\Enums\TipoUsuarioEnum;
 use App\Http\Controllers\Controller;
-use App\Http\Enums\TipoUsuario;
 use Illuminate\Http\Request;
 
 class LoginPacienteController extends Controller
@@ -22,7 +22,7 @@ class LoginPacienteController extends Controller
         }
 
         $user = auth()->user()->load('paciente:uuid,user_uuid,nome,cpf');
-        $token = $user->createToken('auth_token', [TipoUsuario::MEDICO->value]);
+        $token = $user->createToken('auth_token', [TipoUsuarioEnum::MEDICO->value]);
 
         return response()->json([
             'user' => $user

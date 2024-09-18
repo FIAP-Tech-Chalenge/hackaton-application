@@ -2,7 +2,7 @@
 
 namespace Tests\Integration\E2e\Pacientes\ListaDeMedicos;
 
-use App\Http\Enums\TipoUsuario;
+use App\Enums\TipoUsuarioEnum;
 use App\Models\Medico;
 use App\Models\User;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
@@ -18,11 +18,11 @@ class ListaDeMedicosE2eTest extends TestCase
     {
         // Arrange
         Medico::factory()->count(5)->create();
+        $this->actingAs(User::factory()->create([
+            'tipo' => TipoUsuarioEnum::PACIENTE->value,
+        ]));
 
         // Act
-        $this->actingAs(User::factory()->create([
-            'tipo' => TipoUsuario::PACIENTE->value,
-        ]));
         $response = $this->getJson(route('pacientes.medicos.listar'));
         // Assert
         $response->assertStatus(200);
@@ -64,9 +64,9 @@ class ListaDeMedicosE2eTest extends TestCase
     {
         // Arrange
         $user = User::factory()->create([
-            'tipo' => TipoUsuario::MEDICO->value,
+            'tipo' => TipoUsuarioEnum::MEDICO->value,
         ]);
-        $token = $user->createToken('TestToken', [TipoUsuario::MEDICO->value]);
+        $token = $user->createToken('TestToken', [TipoUsuarioEnum::MEDICO->value]);
 
         // Act
         $this->actingAs($user, 'sanctum');
