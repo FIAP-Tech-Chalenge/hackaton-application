@@ -1,9 +1,9 @@
 <?php
 
-namespace Tests\Feature\Actions\Medicos;
+namespace Tests\Feature\Actions\Pacientes;
 
 // use Illuminate\Foundation\Testing\RefreshDatabase;
-use App\Http\Actions\Medicos\RegistrarMedicoAction;
+use App\Http\Actions\Pacientes\RegistrarPacienteAction;
 use App\Http\Enums\TipoUsuario;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
@@ -16,10 +16,9 @@ class RegistrarUsuarioActionTest extends TestCase
     public function test_deve_salvar_o_user_e_medico_no_banco_de_dados(): void
     {
         // Act
-        $user = RegistrarMedicoAction::execute(
+        $user = RegistrarPacienteAction::execute(
             nome: 'Nome',
             cpf: '123.456.789-00',
-            crm: '123456',
             email: 'email@email',
             password: 12345678
         );
@@ -27,13 +26,12 @@ class RegistrarUsuarioActionTest extends TestCase
         // Assert
         $this->assertDatabaseHas('users', [
             'email' => 'email@email',
-            'tipo' => TipoUsuario::MEDICO->value,
+            'tipo' => TipoUsuario::PACIENTE->value,
         ]);
 
-        $this->assertDatabaseHas('medicos', [
+        $this->assertDatabaseHas('pacientes', [
             'nome' => 'Nome',
             'cpf' => '123.456.789-00',
-            'crm' => '123456',
             'user_id' => $user->id,
         ]);
     }

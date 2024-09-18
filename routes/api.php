@@ -1,8 +1,11 @@
 <?php
 
-use App\Http\Controllers\Api\V1\Auth\LoginMedicoController;
-use App\Http\Controllers\Api\V1\Auth\LogoutMedicoController;
-use App\Http\Controllers\Api\V1\Auth\RegistrarMedicoController;
+use App\Http\Controllers\Api\V1\Auth\Medico\LoginMedicoController;
+use App\Http\Controllers\Api\V1\Auth\Medico\LogoutMedicoController;
+use App\Http\Controllers\Api\V1\Auth\Medico\RegistrarMedicoController;
+use App\Http\Controllers\Api\V1\Auth\Paciente\LoginPacienteController;
+use App\Http\Controllers\Api\V1\Auth\Paciente\LogoutPacienteController;
+use App\Http\Controllers\Api\V1\Auth\Paciente\RegistrarPacienteController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -19,6 +22,16 @@ Route::prefix('v1')->group(function () {
         Route::middleware(['auth:sanctum', 'abilities:medico'])->group(function () {
             Route::post('/logout', [LogoutMedicoController::class, '__invoke'])
                 ->name('medicos.logout');
+        });
+    });
+    Route::prefix('pacientes')->group(function () {
+        Route::post('/register', [RegistrarPacienteController::class, '__invoke'])
+            ->name('pacientes.register');
+        Route::post('/login', [LoginPacienteController::class, '__invoke'])
+            ->name('pacientes.login');
+        Route::middleware(['auth:sanctum', 'abilities:paciente'])->group(function () {
+            Route::post('/logout', [LogoutPacienteController::class, '__invoke'])
+                ->name('pacientes.logout');
         });
     });
 });

@@ -1,7 +1,8 @@
 <?php
 
-namespace Tests\Integration\E2e\Auth;
+namespace Tests\Integration\E2e\Auth\Medicos;
 
+use App\Http\Enums\TipoUsuario;
 use App\Models\Medico;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use PHPUnit\Framework\Attributes\Group;
@@ -31,7 +32,7 @@ class RegisterMedicosE2eTest extends TestCase
 
         $this->assertDatabaseHas('users', [
             'email' => 'email@email.com',
-            'tipo' => 'medico',
+            'tipo' => TipoUsuario::MEDICO->value,
         ]);
         $this->assertDatabaseHas('medicos', [
             'nome' => 'John Doe',

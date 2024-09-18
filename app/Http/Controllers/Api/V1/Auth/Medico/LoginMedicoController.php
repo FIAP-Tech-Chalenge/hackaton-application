@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api\V1\Auth;
+namespace App\Http\Controllers\Api\V1\Auth\Medico;
 
 use App\Http\Controllers\Controller;
 use App\Http\Enums\TipoUsuario;
@@ -21,9 +21,9 @@ class LoginMedicoController extends Controller
             ], 401);
         }
 
-        $user = auth()->user()->load('medico:id,user_id,crm,cpf');
+        $user = auth()->user()->load('medico:id,nome,crm,cpf,user_id');
         $token = $user->createToken('auth_token', [TipoUsuario::MEDICO->value]);
-        
+
         return response()->json([
             'user' => $user
                 ->only('id', 'name', 'email', 'medico'),
