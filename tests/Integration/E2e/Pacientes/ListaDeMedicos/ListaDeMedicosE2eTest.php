@@ -79,6 +79,6 @@ class ListaDeMedicosE2eTest extends TestCase
         $response->assertJsonStructure([
             'message',
         ]);
-        $this->assertEquals('Forbidden.', $response->json('message'));
+        $this->assertEquals('Unauthenticated.', $response->json('message'));
     }
 }
