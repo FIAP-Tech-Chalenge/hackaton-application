@@ -22,6 +22,12 @@ class IntervalosCollection implements IteratorAggregate, Countable
         return $this;
     }
 
+    public function addWithKey(IntervaloEntity $intervalo, mixed $key): self
+    {
+        $this->intervalos[$key] = $intervalo;
+        return $this;
+    }
+
     public function getIntervalos(): array
     {
         return $this->intervalos;
@@ -35,5 +41,22 @@ class IntervalosCollection implements IteratorAggregate, Countable
     public function count(): int
     {
         return count($this->intervalos);
+    }
+
+    public function toArray(): array
+    {
+        return array_map(
+            fn(IntervaloEntity $intervalo) => [
+                'inicioDoIntervalo' => $intervalo->inicioDoIntervalo->format('H:i'),
+                'finalDoIntervalo' => $intervalo->finalDoIntervalo->format('H:i'),
+                'statusHorarioEnum' => $intervalo->statusHorarioEnum->value
+            ],
+            $this->intervalos
+        );
+    }
+
+    public function first(): ?IntervaloEntity
+    {
+        return reset($this->intervalos);
     }
 }

@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\V1\Auth\Medico\RegistrarMedicoController;
 use App\Http\Controllers\Api\V1\Auth\Paciente\LoginPacienteController;
 use App\Http\Controllers\Api\V1\Auth\Paciente\LogoutPacienteController;
 use App\Http\Controllers\Api\V1\Auth\Paciente\RegistrarPacienteController;
+use App\Http\Controllers\Api\V1\Medicos\Horarios\AlterarHorarioDoDiaController;
 use App\Http\Controllers\Api\V1\Medicos\Horarios\LiberarHorariosDoDiaController;
 use App\Http\Controllers\Api\V1\Pacientes\Medicos\ListarMedicosController;
 use Illuminate\Http\Request;
@@ -25,7 +26,9 @@ Route::prefix('v1')->group(function () {
             Route::post('/logout', [LogoutMedicoController::class, '__invoke'])
                 ->name('medicos.logout');
             Route::post('horarios/liberar', [LiberarHorariosDoDiaController::class, '__invoke'])
-                ->name('medicos.horarios.liberar-agenda-dodia');
+                ->name('medicos.horarios.liberar-agenda-do-dia');
+            Route::post('horarios/alterar', [AlterarHorarioDoDiaController::class, '__invoke'])
+                ->name('medicos.horarios.alterar');
         });
     });
     Route::prefix('pacientes')->group(function () {

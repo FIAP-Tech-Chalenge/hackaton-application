@@ -13,4 +13,6 @@ interface HorariosDisponiveisCommandInterface
         Carbon $data,
         IntervalosCollection $horariosDisponiveis
     ): void;
+
+    public function cancelarHorariosDisponiveis(UuidInterface $medicoUuid, array $horariosParaCancelarUuids): void;
 }

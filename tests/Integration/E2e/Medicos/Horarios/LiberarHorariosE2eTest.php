@@ -32,7 +32,7 @@ class LiberarHorariosE2eTest extends TestCase
 
         // Act
         $response = $this->postJson(
-            route('medicos.horarios.liberar-agenda-dodia'),
+            route('medicos.horarios.liberar-agenda-do-dia'),
             [
                 'data' => $dataDaAgenda->format('Y-m-d'),
                 'periodo_atendimento' => [
