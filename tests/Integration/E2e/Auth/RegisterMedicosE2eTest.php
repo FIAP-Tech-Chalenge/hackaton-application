@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Integration\E2e\Medicos;
+namespace Tests\Integration\E2e\Auth;
 
 use App\Models\Medico;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
