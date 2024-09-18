@@ -14,12 +14,12 @@ class AgendaEntity
     {
     }
 
-    public static function makeNovaAgendaDoDia(IntervalosCollection $intervalos, UuidInterface $medicoUuid): self
+    public static function makeAgenda(IntervalosCollection $intervalos, UuidInterface $medicoUuid): self
     {
         $agenda = new self();
         $agenda->intervalos = $intervalos;
         $agenda->medicoUuid = $medicoUuid;
-        
+
         return $agenda;
     }
 

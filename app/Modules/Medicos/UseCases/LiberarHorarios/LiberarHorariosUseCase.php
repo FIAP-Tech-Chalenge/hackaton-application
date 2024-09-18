@@ -40,6 +40,6 @@ readonly class LiberarHorariosUseCase
         $agendamentosNoDia = $periodoAtendimento->montarAgendaDoDia($intervalo, $intervalosIndisponiveis);
         $this->horariosDisponiveisCommand->criarAgendaDoDia($medicoUuid, $data, $agendamentosNoDia);
 
-        return AgendaEntity::makeNovaAgendaDoDia($agendamentosNoDia, $medicoUuid);
+        return AgendaEntity::makeAgenda($agendamentosNoDia, $medicoUuid);
     }
 }

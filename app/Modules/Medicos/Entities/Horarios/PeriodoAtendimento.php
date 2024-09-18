@@ -7,9 +7,13 @@ use App\Enums\StatusHorarioEnum;
 use App\Modules\Shared\Collections\Horarios\IntervalosCollection;
 use App\Modules\Shared\Exceptions\Horarios\HoraInicialMaiorQueFinalException;
 use Carbon\Carbon;
+use Ramsey\Uuid\Uuid;
 
 class PeriodoAtendimento
 {
+    /**
+     * @throws HoraInicialMaiorQueFinalException
+     */
     public function __construct(public Carbon $inicioAtendimento, public Carbon $fimAtendimento)
     {
         $this->validarHorario();
@@ -37,13 +41,14 @@ class PeriodoAtendimento
             //criar intervalo apenas se não estiver indisponível
             $podeDisponibilizar = $this->podeDisponibilizar($intervalosIndisponiveis, $inicio, $fim);
             if ($podeDisponibilizar) {
-                $intervalos->add(
-                    intervalo: new IntervaloEntity(
-                        inicioDoIntervalo: $inicio,
-                        finalDoIntervalo: $fim,
-                        statusHorarioEnum: StatusHorarioEnum::DISPONIVEL
-                    )
+                $novoIntervalo = new IntervaloEntity(
+                    inicioDoIntervalo: $inicio,
+                    finalDoIntervalo: $fim,
+                    statusHorarioEnum: StatusHorarioEnum::DISPONIVEL
                 );
+                $novoIntervalo->setUuid(Uuid::uuid7());
+
+                $intervalos->add(intervalo: $novoIntervalo);
             }
             $inicio = $inicio->copy()->addMinutes($intervalosDeAgendamentosEnum->value);
             $fim = $fim->copy()->addMinutes($intervalosDeAgendamentosEnum->value);

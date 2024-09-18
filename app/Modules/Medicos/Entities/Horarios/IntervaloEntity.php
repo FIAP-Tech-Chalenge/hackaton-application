@@ -5,16 +5,19 @@ namespace App\Modules\Medicos\Entities\Horarios;
 use App\Enums\StatusHorarioEnum;
 use App\Modules\Shared\Exceptions\Horarios\HoraInicialMaiorQueFinalException;
 use Carbon\Carbon;
+use Ramsey\Uuid\UuidInterface;
 
-readonly class IntervaloEntity
+class IntervaloEntity
 {
+    private UuidInterface $uuid;
+
     /**
      * @throws HoraInicialMaiorQueFinalException
      */
     public function __construct(
-        public Carbon $inicioDoIntervalo,
-        public Carbon $finalDoIntervalo,
-        public StatusHorarioEnum $statusHorarioEnum
+        public readonly Carbon $inicioDoIntervalo,
+        public readonly Carbon $finalDoIntervalo,
+        public readonly StatusHorarioEnum $statusHorarioEnum
     ) {
         $this->validarHorario();
     }
@@ -27,5 +30,16 @@ readonly class IntervaloEntity
         if ($this->inicioDoIntervalo->greaterThanOrEqualTo($this->finalDoIntervalo)) {
             throw new HoraInicialMaiorQueFinalException('Horário inválido');
         }
+    }
+
+    public function getUuid(): UuidInterface
+    {
+        return $this->uuid;
+    }
+
+    public function setUuid(UuidInterface $uuid): self
+    {
+        $this->uuid = $uuid;
+        return $this;
     }
 }
