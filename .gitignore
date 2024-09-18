@@ -20,3 +20,5 @@ yarn-error.log
 /.vscode
 /.zed
 /storage/app/public/coverage-report/
+# Ignore coverage report
+coverage.xml
