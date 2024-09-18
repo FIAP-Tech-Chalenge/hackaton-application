@@ -5,6 +5,10 @@ on:
     branches: [
       "*",
     ]
+  push:
+    branches: [
+      "master",
+    ]
 
 jobs:
   tests:
