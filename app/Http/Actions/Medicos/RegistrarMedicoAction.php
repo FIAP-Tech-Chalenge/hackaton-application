@@ -13,15 +13,15 @@ class RegistrarMedicoAction
         string $cpf,
         string $crm,
         string $email,
-        string $password
-
+        string $password,
+        TipoUsuario $tipo,
     ): User {
         $user = User::query()
             ->create([
                 'nome' => $nome,
                 'email' => $email,
                 'password' => bcrypt($password),
-                'tipo' => TipoUsuario::MEDICO->value,
+                'tipo' => $tipo->value,
             ]);
 
         Medico::query()
