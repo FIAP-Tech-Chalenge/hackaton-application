@@ -9,7 +9,7 @@ use PHPUnit\Framework\Attributes\Group;
 use Tests\TestCase;
 
 #[Group('integration_e2e_paciente_logout')]
-class AuthLogoutPacienteE2ETest extends TestCase
+class AuthLogoutPacientesE2eTest extends TestCase
 {
     use DatabaseMigrations;
 

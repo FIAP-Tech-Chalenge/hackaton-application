@@ -9,7 +9,7 @@ use PHPUnit\Framework\Attributes\Group;
 use Tests\TestCase;
 
 #[Group('integration_e2e_paciente_register')]
-class RegisterPacienteE2ETest extends TestCase
+class RegisterPacientesE2eTest extends TestCase
 {
     use DatabaseMigrations;
 
