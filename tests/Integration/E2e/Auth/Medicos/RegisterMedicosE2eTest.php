@@ -24,7 +24,6 @@ class RegisterMedicosE2eTest extends TestCase
                 'password' => 'password',
             ]
         );
-
         // Assert
         $response->assertStatus(201);
         $response->assertJsonStructure(['token']);

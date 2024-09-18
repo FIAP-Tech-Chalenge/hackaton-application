@@ -1,6 +1,5 @@
 <?php
 
-use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -12,11 +11,13 @@ return new class extends Migration {
     public function up(): void
     {
         Schema::create('medicos', function (Blueprint $table) {
-            $table->id();
+            $table->uuid()->primary();
             $table->string('nome');
             $table->string('cpf');
             $table->string('crm');
-            $table->foreignIdFor(User::class);
+            $table->foreignUuid('user_uuid')
+                ->constrained('users', 'uuid')
+                ->onDelete('cascade');
             $table->timestamps();
         });
     }

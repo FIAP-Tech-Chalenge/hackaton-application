@@ -37,7 +37,7 @@ class ListaDeMedicosE2eTest extends TestCase
             'to',
             'data' => [
                 '*' => [
-                    'id',
+                    'uuid',
                     'nome',
                     'crm',
                     'cpf',

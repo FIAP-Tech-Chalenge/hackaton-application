@@ -5,6 +5,7 @@ namespace App\Http\Actions\Medicos;
 use App\Http\Enums\TipoUsuario;
 use App\Models\Medico;
 use App\Models\User;
+use Ramsey\Uuid\Uuid;
 
 class RegistrarMedicoAction
 {
@@ -17,18 +18,20 @@ class RegistrarMedicoAction
     ): User {
         $user = User::query()
             ->create([
+                'uuid' => Uuid::uuid7()->toString(),
                 'nome' => $nome,
                 'email' => $email,
                 'password' => bcrypt($password),
                 'tipo' => TipoUsuario::MEDICO->value,
             ]);
-
+        
         Medico::query()
             ->create([
+                'uuid' => Uuid::uuid7()->toString(),
                 'nome' => $nome,
                 'cpf' => $cpf,
                 'crm' => $crm,
-                'user_id' => $user->id,
+                'user_uuid' => $user->uuid,
             ]);
 
         return $user;

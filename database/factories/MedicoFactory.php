@@ -19,10 +19,11 @@ class MedicoFactory extends Factory
     public function definition(): array
     {
         return [
+            'uuid' => $this->faker->uuid,
             'nome' => $this->faker->name,
             'cpf' => $this->faker->numerify('###.###.###-##'),
             'crm' => $this->faker->randomNumber(6),
-            'user_id' => User::factory(),
+            'user_uuid' => User::factory(),
         ];
     }
 }
