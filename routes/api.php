@@ -21,7 +21,7 @@ Route::prefix('v1')->group(function () {
             ->name('medicos.register');
         Route::post('/login', [LoginMedicoController::class, '__invoke'])
             ->name('medicos.login');
-        Route::middleware(['auth:sanctum'])->group(function () {
+        Route::middleware(['auth:sanctum', 'abilities:medico'])->group(function () {
             Route::post('/logout', [LogoutMedicoController::class, '__invoke'])
                 ->name('medicos.logout');
             Route::post('horarios/liberar', [LiberarHorariosDoDiaController::class, '__invoke'])
@@ -33,7 +33,7 @@ Route::prefix('v1')->group(function () {
             ->name('pacientes.register');
         Route::post('/login', [LoginPacienteController::class, '__invoke'])
             ->name('pacientes.login');
-        Route::middleware(['auth:sanctum'])->group(function () {
+        Route::middleware(['auth:sanctum', 'abilities:paciente'])->group(function () {
             Route::post('/logout', [LogoutPacienteController::class, '__invoke'])
                 ->name('pacientes.logout');
             Route::get('medicos', [ListarMedicosController::class, '__invoke'])
