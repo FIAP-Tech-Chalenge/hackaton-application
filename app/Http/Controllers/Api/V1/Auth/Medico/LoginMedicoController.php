@@ -21,12 +21,12 @@ class LoginMedicoController extends Controller
             ], 401);
         }
 
-        $user = auth()->user()->load('medico:id,nome,crm,cpf,user_id');
+        $user = auth()->user()->load('medico:uuid,nome,crm,cpf,user_uuid');
         $token = $user->createToken('auth_token', [TipoUsuario::MEDICO->value]);
 
         return response()->json([
             'user' => $user
-                ->only('id', 'name', 'email', 'medico'),
+                ->only('uuid', 'email', 'medico'),
             'access_token' => $token->plainTextToken,
             'token_type' => 'Bearer',
             'expires_in' => $token->accessToken->expires_at,

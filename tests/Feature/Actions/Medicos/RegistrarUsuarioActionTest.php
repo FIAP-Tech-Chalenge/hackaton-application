@@ -34,7 +34,7 @@ class RegistrarUsuarioActionTest extends TestCase
             'nome' => 'Nome',
             'cpf' => '123.456.789-00',
             'crm' => '123456',
-            'user_id' => $user->id,
+            'user_uuid' => $user->uuid,
         ]);
     }
 

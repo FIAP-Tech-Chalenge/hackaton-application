@@ -21,12 +21,12 @@ class LoginPacienteController extends Controller
             ], 401);
         }
 
-        $user = auth()->user()->load('paciente:id,user_id,nome,cpf');
+        $user = auth()->user()->load('paciente:uuid,user_uuid,nome,cpf');
         $token = $user->createToken('auth_token', [TipoUsuario::MEDICO->value]);
-        
+
         return response()->json([
             'user' => $user
-                ->only('id', 'name', 'email', 'paciente'),
+                ->only('uuid', 'email', 'paciente'),
             'access_token' => $token->plainTextToken,
             'token_type' => 'Bearer',
             'expires_in' => $token->accessToken->expires_at,

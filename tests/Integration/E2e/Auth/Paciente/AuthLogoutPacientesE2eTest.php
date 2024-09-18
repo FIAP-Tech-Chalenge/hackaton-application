@@ -19,7 +19,7 @@ class AuthLogoutPacientesE2eTest extends TestCase
         $user = User::factory()->create();
 
         Medico::factory()->create([
-            'user_id' => $user->id,
+            'user_uuid' => $user->uuid,
         ]);
 
         $response = $this->postJson(
@@ -54,7 +54,7 @@ class AuthLogoutPacientesE2eTest extends TestCase
         ]);
         $this->assertEquals('Deslogado com sucesso.', $response->json('message'));
         $this->assertDatabaseHas('users', [
-            'id' => $user->id,
+            'uuid' => $user->uuid,
         ]);
     }
 }

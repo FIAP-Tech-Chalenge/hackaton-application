@@ -25,7 +25,7 @@ class ListaDeMedicosServiceTest extends TestCase
 
         // Assert
         $this->assertCount(5, $medicos['data']);
-        $this->assertArrayHasKey('id', $medicos['data'][0]);
+        $this->assertArrayHasKey('uuid', $medicos['data'][0]);
         $this->assertArrayHasKey('nome', $medicos['data'][0]);
         $this->assertArrayHasKey('crm', $medicos['data'][0]);
         $this->assertArrayHasKey('cpf', $medicos['data'][0]);
