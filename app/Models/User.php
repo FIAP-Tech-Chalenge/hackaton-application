@@ -25,7 +25,6 @@ class User extends Authenticatable
         'password',
         'tipo'
     ];
-
     /**
      * The attributes that should be hidden for serialization.
      *
@@ -39,6 +38,11 @@ class User extends Authenticatable
     public function medico(): HasOne
     {
         return $this->hasOne(Medico::class);
+    }
+
+    public function paciente(): HasOne
+    {
+        return $this->hasOne(Paciente::class);
     }
 
     /**

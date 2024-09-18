@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Integration\E2e\Auth;
+namespace Tests\Integration\E2e\Auth\Paciente;
 
 use App\Models\Medico;
 use App\Models\User;
@@ -8,8 +8,8 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 use PHPUnit\Framework\Attributes\Group;
 use Tests\TestCase;
 
-#[Group('integration_e2e_medico_logout')]
-class AuthLogoutMedicosE2eTest extends TestCase
+#[Group('integration_e2e_paciente_logout')]
+class AuthLogoutPacientesE2eTest extends TestCase
 {
     use DatabaseMigrations;
 
@@ -23,7 +23,7 @@ class AuthLogoutMedicosE2eTest extends TestCase
         ]);
 
         $response = $this->postJson(
-            route('medicos.login'),
+            route('pacientes.login'),
             [
                 'email' => $user->email,
                 'password' => 'password',
@@ -38,7 +38,7 @@ class AuthLogoutMedicosE2eTest extends TestCase
 
         // Act
         $response = $this->postJson(
-            route('medicos.logout'),
+            route('pacientes.logout'),
             [],
             [
                 'Accept' => 'application/json',

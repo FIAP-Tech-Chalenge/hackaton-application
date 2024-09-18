@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Integration\E2e\Auth;
+namespace Tests\Integration\E2e\Auth\Medicos;
 
 use App\Models\Medico;
 use App\Models\User;

@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\Api\V1\Auth;
+namespace App\Http\Controllers\Api\V1\Auth\Paciente;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-class LogoutMedicoController extends Controller
+class LogoutPacienteController extends Controller
 {
     public function __invoke(Request $request)
     {

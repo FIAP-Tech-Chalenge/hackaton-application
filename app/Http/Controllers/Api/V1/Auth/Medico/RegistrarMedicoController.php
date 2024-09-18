@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api\V1\Auth;
+namespace App\Http\Controllers\Api\V1\Auth\Medico;
 
 use App\Http\Actions\Medicos\RegistrarMedicoAction;
 use App\Http\Controllers\Controller;
@@ -24,11 +24,10 @@ class RegistrarMedicoController extends Controller
             cpf: $request->cpf,
             crm: $request->crm,
             email: $request->email,
-            password: $request->password,
-            tipo: TipoUsuario::MEDICO,
+            password: $request->password
         );
 
-        $token = $user->createToken('medico')->plainTextToken;
+        $token = $user->createToken(TipoUsuario::MEDICO->value)->plainTextToken;
 
         return response()->json(['token' => $token], 201);
     }
