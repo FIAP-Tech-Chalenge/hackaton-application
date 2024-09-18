@@ -2,7 +2,7 @@
 
 namespace Database\Factories;
 
-use App\Http\Enums\TipoUsuario;
+use App\Enums\TipoUsuarioEnum;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
@@ -31,7 +31,7 @@ class UserFactory extends Factory
             'email_verified_at' => now(),
             'password' => static::$password ??= Hash::make('password'),
             'remember_token' => Str::random(10),
-            'tipo' => TipoUsuario::MEDICO->value,
+            'tipo' => TipoUsuarioEnum::MEDICO->value,
         ];
     }
 

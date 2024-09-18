@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\Api\V1\Auth\Medico;
 
-use App\Http\Actions\Medicos\RegistrarMedicoAction;
+use App\Enums\TipoUsuarioEnum;
 use App\Http\Controllers\Controller;
-use App\Http\Enums\TipoUsuario;
+use App\Infra\Actions\Medicos\RegistrarMedicoAction;
 use Illuminate\Http\Request;
 
 class RegistrarMedicoController extends Controller
@@ -27,7 +27,7 @@ class RegistrarMedicoController extends Controller
             password: $request->password
         );
 
-        $token = $user->createToken(TipoUsuario::MEDICO->value)->plainTextToken;
+        $token = $user->createToken(TipoUsuarioEnum::MEDICO->value)->plainTextToken;
 
         return response()->json(['token' => $token], 201);
     }

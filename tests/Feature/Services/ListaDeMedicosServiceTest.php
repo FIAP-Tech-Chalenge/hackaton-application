@@ -2,7 +2,7 @@
 
 namespace Tests\Feature\Services;
 
-use App\Http\Services\Pacientes\ListaDeMedicosService;
+use App\Infra\Services\Pacientes\ListaDeMedicosService;
 use App\Models\Medico;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use PHPUnit\Framework\Attributes\Group;

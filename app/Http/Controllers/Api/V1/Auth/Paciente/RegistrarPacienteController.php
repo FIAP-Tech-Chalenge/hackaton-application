@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\Api\V1\Auth\Paciente;
 
-use App\Http\Actions\Pacientes\RegistrarPacienteAction;
+use App\Enums\TipoUsuarioEnum;
 use App\Http\Controllers\Controller;
-use App\Http\Enums\TipoUsuario;
+use App\Infra\Actions\Pacientes\RegistrarPacienteAction;
 use Illuminate\Http\Request;
 
 class RegistrarPacienteController extends Controller
@@ -25,7 +25,7 @@ class RegistrarPacienteController extends Controller
             password: $request->password
         );
 
-        $token = $user->createToken(TipoUsuario::PACIENTE->value)->plainTextToken;
+        $token = $user->createToken(TipoUsuarioEnum::PACIENTE->value)->plainTextToken;
 
         return response()->json(['token' => $token], 201);
     }

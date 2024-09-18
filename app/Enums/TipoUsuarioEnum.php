@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Http\Enums;
+namespace App\Enums;
 
-enum TipoUsuario: string
+enum TipoUsuarioEnum: string
 {
     case MEDICO = 'medico';
     case PACIENTE = 'paciente';

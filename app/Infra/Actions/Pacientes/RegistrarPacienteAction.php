@@ -1,18 +1,17 @@
 <?php
 
-namespace App\Http\Actions\Medicos;
+namespace App\Infra\Actions\Pacientes;
 
-use App\Http\Enums\TipoUsuario;
-use App\Models\Medico;
+use App\Enums\TipoUsuarioEnum;
+use App\Models\Paciente;
 use App\Models\User;
 use Ramsey\Uuid\Uuid;
 
-class RegistrarMedicoAction
+class RegistrarPacienteAction
 {
     public static function execute(
         string $nome,
         string $cpf,
-        string $crm,
         string $email,
         string $password
     ): User {
@@ -22,15 +21,13 @@ class RegistrarMedicoAction
                 'nome' => $nome,
                 'email' => $email,
                 'password' => bcrypt($password),
-                'tipo' => TipoUsuario::MEDICO->value,
+                'tipo' => TipoUsuarioEnum::PACIENTE->value,
             ]);
-        
-        Medico::query()
+        Paciente::query()
             ->create([
                 'uuid' => Uuid::uuid7()->toString(),
                 'nome' => $nome,
                 'cpf' => $cpf,
-                'crm' => $crm,
                 'user_uuid' => $user->uuid,
             ]);
 

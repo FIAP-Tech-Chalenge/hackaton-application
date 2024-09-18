@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Services\Pacientes;
+namespace App\Infra\Services\Pacientes;
 
 use App\Models\Medico;
 use Illuminate\Contracts\Pagination\Paginator;

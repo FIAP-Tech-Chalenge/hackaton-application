@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Api\V1\Pacientes\Medicos;
 
 use App\Http\Controllers\Controller;
-use App\Http\Services\Pacientes\ListaDeMedicosService;
+use App\Infra\Services\Pacientes\ListaDeMedicosService;
 use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Http\Request;
 
