@@ -37,7 +37,7 @@ readonly class ReservarHorarioUseCase
         if (!$horarioEntity) {
             throw new HorarioNaoEncontradoException('Horário não encontrado', 404);
         }
-        if ($horarioEntity->status !== StatusHorarioEnum::DISPONIVEL) {
+        if ($horarioEntity->getStatus() !== StatusHorarioEnum::DISPONIVEL) {
             throw new HorarioNaoDisponivelException('Horário não disponível', 400);
         }
 

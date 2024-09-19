@@ -7,6 +7,7 @@ use App\Models\HorarioDisponivel;
 use App\Models\PacienteHorarioDisponivel;
 use App\Modules\Pacientes\Entities\ReservaEntity;
 use App\Modules\Shared\Entities\HorarioEntity;
+use App\Modules\Shared\Entities\HorarioReservadoEntity;
 use App\Modules\Shared\Exceptions\Horarios\HorarioNaoDisponivelException;
 use App\Modules\Shared\Gateways\ReservarHorarioCommandInterface;
 use Ramsey\Uuid\UuidInterface;
@@ -14,9 +15,6 @@ use Symfony\Component\Uid\Ulid;
 
 class ReservarHorarioCommand implements ReservarHorarioCommandInterface
 {
-    /**
-     * @throws HorarioNaoDisponivelException
-     */
     public function reservarHorario(HorarioEntity $horarioEntity, UuidInterface $pacienteUuid): ReservaEntity
     {
         $horarioAtualizado = HorarioDisponivel::query()
@@ -41,5 +39,15 @@ class ReservarHorarioCommand implements ReservarHorarioCommandInterface
             pacienteUuid: $pacienteUuid,
             assinaturaConfirmacao: $assinaturaConfirmacao
         );
+    }
+
+    public function confirmarReserva(HorarioReservadoEntity $horarioEntity): void
+    {
+        HorarioDisponivel::query()
+            ->where('uuid', '=', $horarioEntity->horarioUuid->toString())
+            ->where('medico_uuid', '=', $horarioEntity->medicoEntity->uuid->toString())
+            ->update([
+                'status' => $horarioEntity->getStatus()->value
+            ]);
     }
 }

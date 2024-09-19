@@ -6,11 +6,12 @@ use App\Enums\StatusHorarioEnum;
 use Carbon\Carbon;
 use Ramsey\Uuid\UuidInterface;
 
-class HorarioEntity
+class HorarioReservadoEntity
 {
     public function __construct(
         public readonly UuidInterface $horarioUuid,
-        public readonly UuidInterface $medicoUuid,
+        public readonly MedicoEntity $medicoEntity,
+        public readonly PacienteEntity $pacienteEntity,
         public readonly Carbon $data,
         public readonly Carbon $horaInicio,
         public readonly Carbon $horaFim,
