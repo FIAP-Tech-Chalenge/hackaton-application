@@ -7,9 +7,7 @@ use App\Jobs\Agendamento\ValidacaoDeReservaJob;
 use App\Models\HorarioDisponivel;
 use App\Models\Paciente;
 use App\Models\PacienteHorarioDisponivel;
-use App\Modules\Shared\Entities\HorarioReservadoEntity;
-use App\Modules\Shared\Entities\MedicoEntity;
-use App\Modules\Shared\Entities\PacienteEntity;
+use App\Modules\Pacientes\Entities\ReservaEntity;
 use App\Modules\Shared\Gateways\ReservarHorarioCommandInterface;
 use App\Modules\Shared\Gateways\ReservarHorarioMapperInterface;
 use App\Notifications\Agendamento\Reserva\ReservaConfirmadaMedicoMail;
@@ -42,25 +40,11 @@ class ValidacaoDeReservaJobTest extends TestCase
 
         // Act
         ValidacaoDeReservaJob::dispatch(
-            new HorarioReservadoEntity(
-                horarioUuid: Uuid::fromString($horarioDisponivel->uuid),
-                medicoEntity: new MedicoEntity(
-                    uuid: Uuid::fromString($horarioDisponivel->medico->uuid),
-                    nome: $horarioDisponivel->medico->nome,
-                    crm: $horarioDisponivel->medico->crm,
-                    email: $horarioDisponivel->medico->user->email
-                ),
-                pacienteEntity: new PacienteEntity(
-                    uuid: Uuid::fromString($paciente->uuid),
-                    nome: $paciente->nome,
-                    cpf: $paciente->cpf,
-                    email: $paciente->user->email
-                ),
-                data: $horarioDisponivel->data,
-                horaInicio: $horarioDisponivel->hora_inicio,
-                horaFim: $horarioDisponivel->hora_fim,
-                status: StatusHorarioEnum::from($horarioDisponivel->status),
-                assinaturaDoAgendamento: $reserva->assinatura_confirmacao
+            new ReservaEntity(
+                horarioDisponivelUuid: Uuid::fromString($horarioDisponivel->uuid),
+                pacienteUuid: Uuid::fromString($paciente->uuid),
+                assinaturaConfirmacao: $reserva->assinatura_confirmacao,
+                medicoUuid: Uuid::fromString($horarioDisponivel->medico->uuid),
             ),
             $this->app->make(ReservarHorarioCommandInterface::class),
             $this->app->make(ReservarHorarioMapperInterface::class)
@@ -80,6 +64,7 @@ class ValidacaoDeReservaJobTest extends TestCase
         Notification::assertSentTo([$paciente->user], ReservaConfirmadaPacienteMail::class);
     }
 
+    #[Group('integration_job_validar_reserva_de_horario_2')]
     public function test_deve_enviar_email_quando_horario_nao_estiver_reservado()
     {
         // Arrange
@@ -96,25 +81,11 @@ class ValidacaoDeReservaJobTest extends TestCase
 
         // Act
         ValidacaoDeReservaJob::dispatch(
-            new HorarioReservadoEntity(
-                horarioUuid: Uuid::fromString($horarioDisponivel->uuid),
-                medicoEntity: new MedicoEntity(
-                    uuid: Uuid::fromString($horarioDisponivel->medico->uuid),
-                    nome: $horarioDisponivel->medico->nome,
-                    crm: $horarioDisponivel->medico->crm,
-                    email: $horarioDisponivel->medico->user->email
-                ),
-                pacienteEntity: new PacienteEntity(
-                    uuid: Uuid::fromString($paciente->uuid),
-                    nome: $paciente->nome,
-                    cpf: $paciente->cpf,
-                    email: $paciente->user->email
-                ),
-                data: $horarioDisponivel->data,
-                horaInicio: $horarioDisponivel->hora_inicio,
-                horaFim: $horarioDisponivel->hora_fim,
-                status: StatusHorarioEnum::from($horarioDisponivel->status),
-                assinaturaDoAgendamento: $reserva->assinatura_confirmacao
+            new ReservaEntity(
+                horarioDisponivelUuid: Uuid::fromString($horarioDisponivel->uuid),
+                pacienteUuid: Uuid::fromString($paciente->uuid),
+                assinaturaConfirmacao: $reserva->assinatura_confirmacao,
+                medicoUuid: Uuid::fromString($horarioDisponivel->medico->uuid),
             ),
             $this->app->make(ReservarHorarioCommandInterface::class),
             $this->app->make(ReservarHorarioMapperInterface::class)

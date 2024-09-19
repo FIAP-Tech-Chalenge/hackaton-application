@@ -20,7 +20,6 @@ class ReservarHorarioMapper implements ReservarHorarioMapperInterface
     {
         $horarioDisponivel = HorarioDisponivel::query()
             ->where('uuid', '=', $horarioDisponivelUuid->toString())
-            ->where('status', '=', StatusHorarioEnum::DISPONIVEL->value)
             ->exists();
         if (!$horarioDisponivel) {
             return null;
