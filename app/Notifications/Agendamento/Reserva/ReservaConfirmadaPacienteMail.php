@@ -25,7 +25,7 @@ class ReservaConfirmadaPacienteMail extends Notification
     {
         return (new MailMessage)
             ->subject('Reserva confirmada')
-            ->markdown('mail.agendamento.reserva.confirmada', [
+            ->markdown('mail.agendamento.reserva.confirmada-paciente', [
                 'horarioReservadoEntity' => $this->horarioReservadoEntity,
             ]);
     }

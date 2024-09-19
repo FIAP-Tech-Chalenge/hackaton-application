@@ -1,12 +1,8 @@
 <x-mail::message>
-# Introduction
+# Novo Agendamento de Consulta Confirmado
 
-The body of your message.
+Olá, Dr(a) {{ $user->medico->name }}!
 
-<x-mail::button :url="''">
-Button Text
-</x-mail::button>
-
-Thanks,<br>
+Obrigado,<br>
 {{ config('app.name') }}
 </x-mail::message>
