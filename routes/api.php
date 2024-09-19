@@ -8,6 +8,7 @@ use App\Http\Controllers\Api\V1\Auth\Paciente\LogoutPacienteController;
 use App\Http\Controllers\Api\V1\Auth\Paciente\RegistrarPacienteController;
 use App\Http\Controllers\Api\V1\Medicos\Horarios\AlterarHorarioDoDiaController;
 use App\Http\Controllers\Api\V1\Medicos\Horarios\LiberarHorariosDoDiaController;
+use App\Http\Controllers\Api\V1\Pacientes\Agendamentos\ReservarHorarioController;
 use App\Http\Controllers\Api\V1\Pacientes\Medicos\ListarMedicosController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -25,10 +26,13 @@ Route::prefix('v1')->group(function () {
         Route::middleware(['auth:sanctum', 'abilities:medico'])->group(function () {
             Route::post('/logout', [LogoutMedicoController::class, '__invoke'])
                 ->name('medicos.logout');
-            Route::post('horarios/liberar', [LiberarHorariosDoDiaController::class, '__invoke'])
-                ->name('medicos.horarios.liberar-agenda-do-dia');
-            Route::post('horarios/alterar', [AlterarHorarioDoDiaController::class, '__invoke'])
-                ->name('medicos.horarios.alterar');
+
+            Route::group(['prefix' => 'horarios'], function () {
+                Route::post('liberar', [LiberarHorariosDoDiaController::class, '__invoke'])
+                    ->name('medicos.horarios.liberar-agenda-do-dia');
+                Route::post('alterar', [AlterarHorarioDoDiaController::class, '__invoke'])
+                    ->name('medicos.horarios.alterar');
+            });
         });
     });
     Route::prefix('pacientes')->group(function () {
@@ -39,8 +43,16 @@ Route::prefix('v1')->group(function () {
         Route::middleware(['auth:sanctum', 'abilities:paciente'])->group(function () {
             Route::post('/logout', [LogoutPacienteController::class, '__invoke'])
                 ->name('pacientes.logout');
-            Route::get('medicos', [ListarMedicosController::class, '__invoke'])
-                ->name('pacientes.medicos.listar');
+
+            Route::group(['prefix' => 'medicos'], function () {
+                Route::get('/', [ListarMedicosController::class, '__invoke'])
+                    ->name('pacientes.medicos.listar');
+            });
+
+            Route::group(['prefix' => 'agendamentos'], function () {
+                Route::post('reservar', [ReservarHorarioController::class, '__invoke'])
+                    ->name('pacientes.agendamentos.reservar');
+            });
         });
     });
 });
