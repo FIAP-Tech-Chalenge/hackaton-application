@@ -8,5 +8,5 @@ use Ramsey\Uuid\UuidInterface;
 interface ReservarHorarioMapperInterface
 {
 
-    public function getReserva(UuidInterface $horarioDisponivelUuid): ?HorarioReservadoEntity;
+    public function getDetalhesDaReserva(UuidInterface $horarioDisponivelUuid): ?HorarioReservadoEntity;
 }

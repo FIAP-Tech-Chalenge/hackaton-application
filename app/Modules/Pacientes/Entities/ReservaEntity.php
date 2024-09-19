@@ -11,6 +11,7 @@ readonly class ReservaEntity
         public UuidInterface $horarioDisponivelUuid,
         public UuidInterface $pacienteUuid,
         public string $assinaturaConfirmacao,
+        public UuidInterface $medicoUuid,
         public ?Carbon $confirmadoEm = null,
     ) {
     }

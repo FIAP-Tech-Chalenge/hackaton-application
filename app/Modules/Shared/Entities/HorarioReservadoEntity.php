@@ -16,6 +16,7 @@ class HorarioReservadoEntity
         public readonly Carbon $horaInicio,
         public readonly Carbon $horaFim,
         private StatusHorarioEnum $status,
+        public readonly string $assinaturaDoAgendamento
     ) {
     }
 

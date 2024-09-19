@@ -37,7 +37,8 @@ class ReservarHorarioCommand implements ReservarHorarioCommandInterface
         return new ReservaEntity(
             horarioDisponivelUuid: $horarioEntity->horarioUuid,
             pacienteUuid: $pacienteUuid,
-            assinaturaConfirmacao: $assinaturaConfirmacao
+            assinaturaConfirmacao: $assinaturaConfirmacao,
+            medicoUuid: $horarioEntity->medicoUuid,
         );
     }
 
