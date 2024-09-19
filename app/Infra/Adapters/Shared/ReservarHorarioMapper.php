@@ -3,6 +3,7 @@
 namespace App\Infra\Adapters\Shared;
 
 use App\Enums\StatusHorarioEnum;
+use App\Models\HorarioDisponivel;
 use App\Models\PacienteHorarioDisponivel;
 use App\Modules\Shared\Entities\HorarioReservadoEntity;
 use App\Modules\Shared\Entities\MedicoEntity;
@@ -15,14 +16,23 @@ use Ramsey\Uuid\UuidInterface;
 class ReservarHorarioMapper implements ReservarHorarioMapperInterface
 {
 
-    public function getReserva(UuidInterface $horarioDisponivelUuid): ?HorarioReservadoEntity
+    public function getDetalhesDaReserva(UuidInterface $horarioDisponivelUuid): ?HorarioReservadoEntity
     {
+        $horarioDisponivel = HorarioDisponivel::query()
+            ->where('uuid', '=', $horarioDisponivelUuid->toString())
+            ->exists();
+        if (!$horarioDisponivel) {
+            return null;
+        }
+
         $reserva = PacienteHorarioDisponivel::query()
-            ->select('uuid', 'horario_disponivel_uuid', 'paciente_uuid')
+            ->select('uuid', 'horario_disponivel_uuid', 'paciente_uuid', 'assinatura_confirmacao')
             ->where('horario_disponivel_uuid', '=', $horarioDisponivelUuid->toString())
             ->with([
-                'horarioDisponivel.medico',
+                'horarioDisponivel:uuid,medico_uuid,data,hora_inicio,hora_fim,status',
+                'horarioDisponivel.medico:uuid,nome,crm,user_uuid',
                 'horarioDisponivel.medico.user:uuid,email',
+                'paciente:uuid,nome,cpf,user_uuid',
                 'paciente.user:uuid,email'
             ])
             ->first();
@@ -48,7 +58,8 @@ class ReservarHorarioMapper implements ReservarHorarioMapperInterface
             data: Carbon::parse($reserva->horarioDisponivel->data),
             horaInicio: Carbon::parse($reserva->horarioDisponivel->horaInicio),
             horaFim: Carbon::parse($reserva->horarioDisponivel->horaFim),
-            status: StatusHorarioEnum::from($reserva->horarioDisponivel->status)
+            status: StatusHorarioEnum::from($reserva->horarioDisponivel->status),
+            assinaturaDoAgendamento: $reserva->assinatura_confirmacao
         );
     }
 }
