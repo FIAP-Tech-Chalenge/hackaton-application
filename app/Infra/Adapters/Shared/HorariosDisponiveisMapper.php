@@ -7,8 +7,10 @@ use App\Helpers\BuilderHelper;
 use App\Models\HorarioDisponivel;
 use App\Modules\Medicos\Entities\Horarios\IntervaloEntity;
 use App\Modules\Shared\Collections\Horarios\IntervalosCollection;
+use App\Modules\Shared\Entities\HorarioEntity;
 use App\Modules\Shared\Gateways\HorariosDisponiveisMapperInterface;
 use Carbon\Carbon;
+use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
 
 class HorariosDisponiveisMapper implements HorariosDisponiveisMapperInterface
@@ -49,5 +51,26 @@ class HorariosDisponiveisMapper implements HorariosDisponiveisMapperInterface
         }
 
         return $intervalosCollection;
+    }
+
+    public function getHorarioDisponivel(UuidInterface $horarioUuid): ?HorarioEntity
+    {
+        $horario = HorarioDisponivel::query()
+            ->select('medico_uuid', 'data', 'hora_inicio', 'hora_fim', 'status')
+            ->where('uuid', '=', $horarioUuid->toString())
+            ->first();
+
+        if (!$horario) {
+            return null;
+        }
+
+        return new HorarioEntity(
+            horarioUuid: $horarioUuid,
+            medicoUuid: Uuid::fromString($horario->medico_uuid),
+            data: Carbon::parse($horario->data),
+            horaInicio: Carbon::parse($horario->hora_inicio),
+            horaFim: Carbon::parse($horario->hora_fim),
+            status: StatusHorarioEnum::from($horario->status)
+        );
     }
 }

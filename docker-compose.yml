@@ -1,50 +1,50 @@
 version: "3"
 services:
-  nginx_hackaton:
-    container_name: nginx_hackaton
-    build:
-      context: ./docker/nginx
-      dockerfile: Dockerfile
-    ports:
-      - "8070:80"
-    networks:
-      - internal
-    volumes:
-      - ./:/var/www/html/
-      - ./storage/logs/nginx:/var/log/nginx/
-  php_hackaton:
-    container_name: php_hackaton
-    build:
-      context: ./docker/php
-      dockerfile: Dockerfile
-      args:
-        user: ${USER}
-        uid: 1000
-        APP_ENV: ${APP_ENV}
-    networks:
-      - internal
-    volumes:
-      - ./:/var/www/html/
-      - ./storage/logs/php.log:/var/log/fpm-php.www.log
-    expose:
-      - "9000"
-  #  horizon:
-  #    build:
-  #      context: ./docker/php
-  #      dockerfile: Dockerfile
-  #      args:
-  #        user: ${USER}
-  #        uid: 1000
-  #    container_name: horizon
-  #    command: php artisan horizon
-  #    volumes:
-  #      - ./:/var/www/html/
-  #    depends_on:
-  #      - php_hackaton
-  #      - nginx_hackaton
-  #      - redis
-  #    networks:
-  #      - internal
+    nginx_hackaton:
+        container_name: nginx_hackaton
+        build:
+            context: ./docker/nginx
+            dockerfile: Dockerfile
+        ports:
+            - "${APP_PORT}:80"
+        networks:
+            - internal
+        volumes:
+            - ./:/var/www/html/
+            - ./storage/logs/nginx:/var/log/nginx/
+    php_hackaton:
+        container_name: php_hackaton
+        build:
+            context: ./docker/php
+            dockerfile: Dockerfile
+            args:
+                user: ${USER}
+                uid: 1000
+                APP_ENV: ${APP_ENV}
+        networks:
+            - internal
+        volumes:
+            - ./:/var/www/html/
+            - ./storage/logs/php.log:/var/log/fpm-php.www.log
+        expose:
+            - "9000"
+    #  horizon:
+    #    build:
+    #      context: ./docker/php
+    #      dockerfile: Dockerfile
+    #      args:
+    #        user: ${USER}
+    #        uid: 1000
+    #    container_name: horizon
+    #    command: php artisan horizon
+    #    volumes:
+    #      - ./:/var/www/html/
+    #    depends_on:
+    #      - php_hackaton
+    #      - nginx_hackaton
+    #      - redis
+    #    networks:
+    #      - internal
 #  mysql:
 #    image: 'mysql/mysql-server:8.0'
 #    container_name: 'db_hackaton'
@@ -67,8 +67,8 @@ services:
 #        retries: 3
 #        timeout: 5s
 networks:
-  internal:
-    driver: bridge
+    internal:
+        driver: bridge
 volumes:
-  db-data-hackaton:
-    driver: local
+    db-data-hackaton:
+        driver: local
