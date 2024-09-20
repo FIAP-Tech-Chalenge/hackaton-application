@@ -157,7 +157,7 @@ jobs:
       - name: Build and push Docker images
         run: |
           docker-compose -f docker-compose.yml build
-          docker tag php_hackaton:latest wolwer/php_hackaton:${{ env.NEW_VERSION }}
-          docker tag nginx_hackaton:latest wolwer/nginx_hackaton:${{ env.NEW_VERSION }}
+          docker tag hackaton-application-php_hackaton:latest wolwer/hacka-app:${{ env.NEW_VERSION }}
+          docker tag hackaton-application-nginx_hackaton:latest wolwer/hacka-nginx:${{ env.NEW_VERSION }}
           docker push wolwer/hacka-app:${{ env.NEW_VERSION }}
           docker push wolwer/hacka-nginx:${{ env.NEW_VERSION }}
