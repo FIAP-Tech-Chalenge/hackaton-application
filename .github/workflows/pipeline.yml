@@ -107,3 +107,51 @@ jobs:
             -Dsonar.projectKey=${{ secrets.SONAR_PROJECTKEY }}
             -Dsonar.organization=${{ secrets.SONAR_ORGANIZATION }}
             -Dsonar.php.coverage.reportPaths=coverage.xml
+
+  deploy-to-dockerhub:
+    needs: sonar
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_TOKEN }}
+
+      - name: Read current version
+        id: get_version
+        run: echo "VERSION=$(cat version.txt)" >> $GITHUB_ENV
+
+      - name: Increment patch version
+        id: increment_version
+        run: |
+          VERSION=${{ env.VERSION }}
+          IFS='.' read -ra ADDR <<< "$VERSION"
+          PATCH=$((ADDR[2] + 1))
+          NEW_VERSION="${ADDR[0]}.${ADDR[1]}.$PATCH"
+          echo "NEW_VERSION=$NEW_VERSION" >> $GITHUB_ENV
+          echo $NEW_VERSION > version.txt
+        shell: bash
+
+      - name: Debugging Information
+        run: |
+          git remote -v
+          git status
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: ./Dockerfile
+          push: true
+          tags: |
+            wolwer/ms-cliente-api:${{ env.NEW_VERSION }}
