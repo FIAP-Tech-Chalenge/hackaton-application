@@ -107,7 +107,7 @@ jobs:
             -Dsonar.projectKey=${{ secrets.SONAR_PROJECTKEY }}
             -Dsonar.organization=${{ secrets.SONAR_ORGANIZATION }}
             -Dsonar.php.coverage.reportPaths=coverage.xml
-
+          
   deploy-to-dockerhub:
     needs: sonar
     runs-on: ubuntu-latest
@@ -121,16 +121,10 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
-      - name: Install Docker Compose
-        run: |
-          sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-          sudo chmod +x /usr/local/bin/docker-compose
-          docker-compose --version
-
       - name: Log in to Docker Hub
         uses: docker/login-action@v3
         with:
-          username: ${{ secrets.DOCKER_USERNAME }}
+          username: ${{ secrets.DOCKER_USERNAME }}  
           password: ${{ secrets.DOCKER_TOKEN }}
 
       - name: Read current version
@@ -148,19 +142,24 @@ jobs:
           echo $NEW_VERSION > version.txt
         shell: bash
 
-      - name: Set environment variables
-        run: |
-          echo "APP_PORT=9000" >> $GITHUB_ENV
-          echo "APP_ENV=production" >> $GITHUB_ENV
-          echo "USER=runner" >> $GITHUB_ENV
-          
+      - name: Build and push PHP image
+        uses: docker/build-push-action@v5
+        with:
+          context: ./docker/php
+          file: ./docker/php/Dockerfile
+          push: true
+          tags: wolwer/hacka-app:${{ env.NEW_VERSION }}
+          build-args: |
+            USER=runner
+            APP_ENV=production
+
+      - name: Build and push Nginx image
+        uses: docker/build-push-action@v5
+        with:
+          context: ./docker/nginx
+          file: ./docker/nginx/Dockerfile
+          push: true
+          tags: wolwer/hacka-nginx:${{ env.NEW_VERSION }}
+
       - name: List Docker images
         run: docker images
-
-      - name: Build and push Docker images
-        run: |
-          docker-compose -f docker-compose.yml build
-          docker tag hackaton-application-php_hackaton:latest wolwer/hacka-app:${{ env.NEW_VERSION }}
-          docker tag hackaton-application-nginx_hackaton:latest wolwer/hacka-nginx:${{ env.NEW_VERSION }}
-          docker push wolwer/hacka-app:${{ env.NEW_VERSION }}
-          docker push wolwer/hacka-nginx:${{ env.NEW_VERSION }}
