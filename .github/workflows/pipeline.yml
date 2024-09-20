@@ -152,11 +152,12 @@ jobs:
         run: |
           echo "APP_PORT=9000" >> $GITHUB_ENV
           echo "APP_ENV=production" >> $GITHUB_ENV
+          echo "USER=runner" >> $GITHUB_ENV
 
       - name: Build and push Docker images
         run: |
           docker-compose -f docker-compose.yml build
-          docker tag app:latest wolwer/hacka-app:${{ env.NEW_VERSION }}
-          docker tag nginx:latest wolwer/hacka-nginx:${{ env.NEW_VERSION }}
+          docker tag php_hackaton:latest wolwer/hacka-app:${{ env.NEW_VERSION }}
+          docker tag nginx_hackaton:latest wolwer/hacka-nginx:${{ env.NEW_VERSION }}
           docker push wolwer/hacka-app:${{ env.NEW_VERSION }}
           docker push wolwer/hacka-nginx:${{ env.NEW_VERSION }}
