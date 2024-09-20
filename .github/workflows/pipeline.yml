@@ -153,6 +153,9 @@ jobs:
           echo "APP_PORT=9000" >> $GITHUB_ENV
           echo "APP_ENV=production" >> $GITHUB_ENV
           echo "USER=runner" >> $GITHUB_ENV
+          
+      - name: List Docker images
+        run: docker images
 
       - name: Build and push Docker images
         run: |
