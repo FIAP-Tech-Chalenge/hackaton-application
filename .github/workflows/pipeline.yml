@@ -148,6 +148,11 @@ jobs:
           echo $NEW_VERSION > version.txt
         shell: bash
 
+      - name: Set environment variables
+        run: |
+          echo "APP_PORT=9000" >> $GITHUB_ENV
+          echo "APP_ENV=production" >> $GITHUB_ENV
+
       - name: Build and push Docker images
         run: |
           docker-compose -f docker-compose.yml build
