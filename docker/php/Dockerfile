@@ -31,5 +31,5 @@ USER $user
 # Exponha a porta
 EXPOSE 9000
 
-# Comando para iniciar o PHP-FPM
-CMD ["php-fpm"]
+# Comando para iniciar o servidor embutido do PHP
+CMD ["php", "-S", "0.0.0.0:9000", "-t", "public"]
