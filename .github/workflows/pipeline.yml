@@ -160,6 +160,3 @@ jobs:
           file: ./docker/nginx/Dockerfile
           push: true
           tags: wolwer/hacka-nginx:${{ env.NEW_VERSION }}
-
-      - name: List Docker images
-        run: docker images

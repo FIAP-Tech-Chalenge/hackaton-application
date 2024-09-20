@@ -37,11 +37,12 @@ RUN chown -R www-data:www-data /var/www/html
 
 
 # Criação de usuário no container para rodar o Composer e Artisan Commands sem ter problema de permissão no arquivo
+ARG user
+ARG uid
 RUN useradd -G www-data,root -u $uid -d /home/$user $user
 RUN mkdir -p /home/$user/.composer && \
     chown -R $user:$user /home/$user && \
     chown -R $user:$user /var/www/html
-USER $user
 # make an if for bash for APP_ENV is diferent from production
 
 RUN echo "alias test='php artisan test'" >> ~/.bashrc
