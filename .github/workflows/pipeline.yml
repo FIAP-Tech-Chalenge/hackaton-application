@@ -154,4 +154,4 @@ jobs:
           file: ./Dockerfile
           push: true
           tags: |
-            wolwer/ms-cliente-api:${{ env.NEW_VERSION }}
+            wolwer/hacka-app:${{ env.NEW_VERSION }}
