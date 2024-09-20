@@ -147,11 +147,10 @@ jobs:
           git remote -v
           git status
 
-      - name: Build and push Docker image
-        uses: docker/build-push-action@v5
-        with:
-          context: .
-          file: ./Dockerfile
-          push: true
-          tags: |
-            wolwer/hacka-app:${{ env.NEW_VERSION }}
+      - name: Build and push Docker images
+        run: |
+          docker-compose -f docker-compose.yml build
+          docker tag app:latest wolwer/hacka-app:${{ env.NEW_VERSION }}
+          docker tag nginx:latest wolwer/hacka-nginx:${{ env.NEW_VERSION }}
+          docker push wolwer/hacka-app:${{ env.NEW_VERSION }}
+          docker push wolwer/hacka-nginx:${{ env.NEW_VERSION }}
