@@ -30,44 +30,44 @@ services:
             - ./storage/logs/php.log:/var/log/fpm-php.www.log
         expose:
             - "9000"
-    #  horizon:
-    #    build:
-    #      context: ./docker/php
-    #      dockerfile: Dockerfile
-    #      args:
-    #        user: ${USER}
-    #        uid: 1000
-    #    container_name: horizon
-    #    command: php artisan horizon
-    #    volumes:
-    #      - ./:/var/www/html/
-    #    depends_on:
-    #      - php_hackaton
-    #      - nginx_hackaton
-    #      - redis
-    #    networks:
-    #      - internal
-#  mysql:
-#    image: 'mysql/mysql-server:8.0'
-#    container_name: 'db_hackaton'
-#    ports:
-#        - '${FORWARD_DB_PORT:-3306}:3306'
-#    environment:
-#        MYSQL_ROOT_PASSWORD: '${DB_PASSWORD}'
-#        MYSQL_ROOT_HOST: "%"
-#        MYSQL_DATABASE: '${DB_DATABASE}'
-#        MYSQL_USER: '${DB_USERNAME}'
-#        MYSQL_PASSWORD: '${DB_PASSWORD}'
-#        MYSQL_ALLOW_EMPTY_PASSWORD: 1
-#    volumes:
-#        - 'db-data-hackaton:/var/lib/mysql'
-#        # - './vendor/laravel/sail/database/mysql/create-testing-database.sh:/docker-entrypoint-initdb.d/10-create-testing-database.sh'
-#    networks:
-#        - internal
-#    healthcheck:
-#        test: [ "CMD", "mysqladmin", "ping", "-p${DB_PASSWORD}" ]
-#        retries: 3
-#        timeout: 5s
+    # horizon:
+    #     build:
+    #         context: ./docker/php
+    #         dockerfile: Dockerfile
+    #         args:
+    #             user: ${USER}
+    #             uid: 1000
+    #     container_name: horizon
+    #     command: php artisan horizon
+    #     volumes:
+    #         - ./:/var/www/html/
+    #     depends_on:
+    #     - php_hackaton
+    #     - nginx_hackaton
+    #     - redis
+    #     networks:
+    #     - internal
+    mysql:
+        image: 'mysql/mysql-server:8.0'
+        container_name: 'db_hackaton'
+        ports:
+        - '${FORWARD_DB_PORT:-3306}:3306'
+        environment:
+            MYSQL_ROOT_PASSWORD: 'password'
+            MYSQL_ROOT_HOST: "%"
+            MYSQL_DATABASE: 'my-database'
+            MYSQL_USER: 'my-user'
+            MYSQL_PASSWORD: 'password'
+            MYSQL_ALLOW_EMPTY_PASSWORD: 1
+        volumes:
+            - 'db-data-hackaton:/var/lib/mysql'
+        # - './vendor/laravel/sail/database/mysql/create-testing-database.sh:/docker-entrypoint-initdb.d/10-create-testing-database.sh'
+        networks:
+            - internal
+        healthcheck:
+            test: [ "CMD", "mysqladmin", "ping", "-p password" ]
+            retries: 3
+            timeout: 5s
 networks:
     internal:
         driver: bridge
