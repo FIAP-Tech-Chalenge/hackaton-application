@@ -21,6 +21,8 @@ services:
                 user: ${USER}
                 uid: 1000
                 APP_ENV: ${APP_ENV}
+        ports:
+            - "9000:9000"
         networks:
             - internal
         volumes:
