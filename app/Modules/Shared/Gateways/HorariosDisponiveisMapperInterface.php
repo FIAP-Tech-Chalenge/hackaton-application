@@ -15,6 +15,4 @@ interface HorariosDisponiveisMapperInterface
     public function getConflitos(UuidInterface $medicoUuid, Carbon $data, IntervaloEntity $novo): IntervalosCollection;
 
     public function getHorarioDisponivel(UuidInterface $horarioUuid): ?HorarioEntity;
-
-    public function getPacienteDoHorarioAlocado(UuidInterface $horarioUuid): ?UuidInterface;
 }

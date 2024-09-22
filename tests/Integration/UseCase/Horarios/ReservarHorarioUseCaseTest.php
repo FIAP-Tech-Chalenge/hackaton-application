@@ -6,6 +6,7 @@ use App\Enums\StatusHorarioEnum;
 use App\Models\HorarioDisponivel;
 use App\Models\Paciente;
 use App\Modules\Pacientes\UseCases\ReservarHorarioUseCase;
+use App\Modules\Shared\Exceptions\Horarios\ErroAoReservarHorarioException;
 use App\Modules\Shared\Exceptions\Horarios\HorarioNaoDisponivelException;
 use App\Modules\Shared\Exceptions\Horarios\HorarioNaoEncontradoException;
 use App\Modules\Shared\Exceptions\Horarios\PacienteNaoEncontradoException;
@@ -100,6 +101,30 @@ class ReservarHorarioUseCaseTest extends TestCase
         $this->useCase->execute(
             Uuid::fromString($horarioDisponivel->uuid),
             Uuid::uuid4()
+        );
+    }
+
+    public function test_nao_deve_permitir_reservar_horario_quando_horario_nao_for_reservado()
+    {
+        // Arrange
+        $pacienteFactory = Paciente::factory()->create();
+        $horarioDisponivel = HorarioDisponivel::factory()->create([
+            'status' => StatusHorarioEnum::DISPONIVEL->value
+        ]);
+        $mockHorarioDisponivelCommand = $this->createMock(ReservarHorarioCommandInterface::class);
+        $mockHorarioDisponivelCommand->method('reservarHorario')->willReturn(null);
+
+        // Act
+        $this->expectException(ErroAoReservarHorarioException::class);
+        $this->expectExceptionMessage('Horário não disponível');
+        $useCase = new ReservarHorarioUseCase(
+            $this->app->make(HorariosDisponiveisMapperInterface::class),
+            $mockHorarioDisponivelCommand,
+            $this->app->make(PacienteMapperInterface::class)
+        );
+        $useCase->execute(
+            Uuid::fromString($horarioDisponivel->uuid),
+            Uuid::fromString($pacienteFactory->uuid)
         );
     }
 

@@ -4,6 +4,7 @@ namespace App\Modules\Pacientes\UseCases;
 
 use App\Enums\StatusHorarioEnum;
 use App\Modules\Pacientes\Entities\ReservaEntity;
+use App\Modules\Shared\Exceptions\Horarios\ErroAoReservarHorarioException;
 use App\Modules\Shared\Exceptions\Horarios\HorarioNaoDisponivelException;
 use App\Modules\Shared\Exceptions\Horarios\HorarioNaoEncontradoException;
 use App\Modules\Shared\Exceptions\Horarios\PacienteNaoEncontradoException;
@@ -25,6 +26,7 @@ readonly class ReservarHorarioUseCase
      * @throws HorarioNaoEncontradoException
      * @throws HorarioNaoDisponivelException
      * @throws PacienteNaoEncontradoException
+     * @throws ErroAoReservarHorarioException
      */
     public function execute(UuidInterface $horarioDisponivelUuid, UuidInterface $pacienteUuid): ReservaEntity
     {
@@ -40,8 +42,11 @@ readonly class ReservarHorarioUseCase
         if ($horarioEntity->getStatus() !== StatusHorarioEnum::DISPONIVEL) {
             throw new HorarioNaoDisponivelException('Horário não disponível', 400);
         }
-
-        return $this->reservarHorarioCommand->reservarHorario($horarioEntity, $pacienteUuid);
+        $reserva = $this->reservarHorarioCommand->reservarHorario($horarioEntity, $pacienteUuid);
+        if (!$reserva) {
+            throw new ErroAoReservarHorarioException('Horário não disponível', 400);
+        }
+        return $reserva;
     }
 
 }
