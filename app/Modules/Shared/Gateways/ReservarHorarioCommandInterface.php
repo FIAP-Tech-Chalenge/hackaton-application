@@ -9,7 +9,7 @@ use Ramsey\Uuid\UuidInterface;
 
 interface ReservarHorarioCommandInterface
 {
-    public function reservarHorario(HorarioEntity $horarioEntity, UuidInterface $pacienteUuid): ReservaEntity;
+    public function reservarHorario(HorarioEntity $horarioEntity, UuidInterface $pacienteUuid): ?ReservaEntity;
 
     public function confirmarReserva(HorarioReservadoEntity $horarioEntity);
 }

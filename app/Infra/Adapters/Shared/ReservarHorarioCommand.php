@@ -8,14 +8,13 @@ use App\Models\PacienteHorarioDisponivel;
 use App\Modules\Pacientes\Entities\ReservaEntity;
 use App\Modules\Shared\Entities\HorarioEntity;
 use App\Modules\Shared\Entities\HorarioReservadoEntity;
-use App\Modules\Shared\Exceptions\Horarios\HorarioNaoDisponivelException;
 use App\Modules\Shared\Gateways\ReservarHorarioCommandInterface;
 use Ramsey\Uuid\UuidInterface;
 use Symfony\Component\Uid\Ulid;
 
 class ReservarHorarioCommand implements ReservarHorarioCommandInterface
 {
-    public function reservarHorario(HorarioEntity $horarioEntity, UuidInterface $pacienteUuid): ReservaEntity
+    public function reservarHorario(HorarioEntity $horarioEntity, UuidInterface $pacienteUuid): ?ReservaEntity
     {
         $horarioAtualizado = HorarioDisponivel::query()
             ->where('uuid', '=', $horarioEntity->horarioUuid->toString())
@@ -24,8 +23,8 @@ class ReservarHorarioCommand implements ReservarHorarioCommandInterface
             ->update([
                 'status' => StatusHorarioEnum::RESERVADO->value
             ]);
-        if (!$horarioAtualizado) {
-            throw new HorarioNaoDisponivelException('Horário não disponível', 400);
+        if ($horarioAtualizado === 0) {
+            return null;
         }
         $assinaturaConfirmacao = Ulid::generate();
         PacienteHorarioDisponivel::query()->create([

@@ -57,6 +57,10 @@ class IntervalosCollection implements IteratorAggregate, Countable
 
     public function first(): ?IntervaloEntity
     {
+        if (empty($this->intervalos)) {
+            return null;
+        }
+        
         return reset($this->intervalos);
     }
 }

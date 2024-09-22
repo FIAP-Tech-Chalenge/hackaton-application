@@ -21,6 +21,9 @@
             <directory>app/Infra</directory>
             <directory>app/Jobs</directory>
         </include>
+        <exclude>
+            <directory>tests</directory>
+        </exclude>
     </source>
     <php>
         <env name="APP_ENV" value="testing"/>

@@ -73,9 +73,4 @@ class HorariosDisponiveisMapper implements HorariosDisponiveisMapperInterface
             status: StatusHorarioEnum::from($horario->status)
         );
     }
-
-    public function getPacienteDoHorarioAlocado(UuidInterface $horarioUuid): ?UuidInterface
-    {
-        // TODO: Implement getHorarioAlocado() method.
-    }
 }
