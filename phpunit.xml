@@ -19,6 +19,7 @@
         <include>
             <directory>app/Modules</directory>
             <directory>app/Infra</directory>
+            <directory>app/Jobs</directory>
         </include>
     </source>
     <php>
