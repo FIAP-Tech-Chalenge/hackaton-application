@@ -27,8 +27,8 @@ class AlterarHorarioDoDiaController extends Controller
     {
         $request->validate([
             'data' => ['required', 'date_format:Y-m-d'],
-            'novo_intervalo.hora_inicio' => ['required', 'date_format:H:i'],
-            'novo_intervalo.hora_fim' => ['required', 'date_format:H:i'],
+            'novo_intervalo.hora_inicio' => ['required', 'date_format:Y-m-d H:i'],
+            'novo_intervalo.hora_fim' => ['required', 'date_format:Y-m-d H:i'],
             'horarios_para_cancelar' => ['array'],
             'horarios_para_cancelar.*' => ['required', 'uuid'],
         ]);
@@ -55,7 +55,13 @@ class AlterarHorarioDoDiaController extends Controller
                 data: Carbon::parse($request->input('data'))
             );
         } catch (RegraException $e) {
-            return response()->json(['message' => $e->getMessage()], 400);
+            return response()->json(
+                [
+                    'message' => $e->getMessage(),
+                    ...($e->getErrors() ? ['errors' => $e->getErrors()] : [])
+                ],
+                $e->getCode()
+            );
         } catch (Throwable $e) {
             throw $e;
         }

@@ -30,16 +30,16 @@ class HorariosDisponiveisMapper implements HorariosDisponiveisMapperInterface
             baseBuilder: HorarioDisponivel::query(),
             primeiraColuna: 'hora_inicio',
             segundaColuna: 'hora_fim',
-            primeiroValor: $novo->inicioDoIntervalo->format('H:i'),
-            segundoValor: $novo->finalDoIntervalo->format('H:i')
+            primeiroValor: $novo->inicioDoIntervalo,
+            segundoValor: $novo->finalDoIntervalo
         )
             ->where('medico_uuid', '=', $medicoUuid->toString())
-            ->where('data', '=', $data)
+            ->whereDate('data', '=', $data)
             ->where('status', '=', StatusHorarioEnum::DISPONIVEL->value)
             ->toBase()
             ->get();
 
-        $intervalosCollection = new IntervalosCollection();
+        $conflitos = new IntervalosCollection();
         foreach ($conflitosExistentes as $conflito) {
             $intervalo = new IntervaloEntity(
                 inicioDoIntervalo: Carbon::parse($conflito->hora_inicio),
@@ -47,10 +47,10 @@ class HorariosDisponiveisMapper implements HorariosDisponiveisMapperInterface
                 statusHorarioEnum: StatusHorarioEnum::from($conflito->status)
             );
 
-            $intervalosCollection->addWithKey(intervalo: $intervalo, key: $conflito->uuid);
+            $conflitos->addWithKey(intervalo: $intervalo, key: $conflito->uuid);
         }
 
-        return $intervalosCollection;
+        return $conflitos;
     }
 
     public function getHorarioDisponivel(UuidInterface $horarioUuid): ?HorarioEntity

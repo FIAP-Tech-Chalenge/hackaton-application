@@ -62,8 +62,8 @@ class AlterarHorariosE2eTest extends TestCase
                 'uuid' => Uuid::uuid7()->toString(),
                 'medico_uuid' => $medico->uuid,
                 'data' => $dataDoAgendamento,
-                'hora_inicio' => $periodo->inicioDoIntervalo->format('H:i'),
-                'hora_fim' => $periodo->finalDoIntervalo->format('H:i'),
+                'hora_inicio' => $periodo->inicioDoIntervalo->format('Y-m-d H:i'),
+                'hora_fim' => $periodo->finalDoIntervalo->format('Y-m-d H:i'),
                 'status' => $periodo->statusHorarioEnum->value,
             ]);
         }
@@ -74,8 +74,8 @@ class AlterarHorariosE2eTest extends TestCase
             [
                 'data' => $dataDoAgendamento->format('Y-m-d'),
                 'novo_intervalo' => [
-                    'hora_inicio' => '12:00',
-                    'hora_fim' => '14:00',
+                    'hora_inicio' => $dataDoAgendamento->format('Y-m-d') . ' 12:00',
+                    'hora_fim' => $dataDoAgendamento->format('Y-m-d') . ' 14:00',
                 ],
                 'horarios_para_cancelar' => [],
             ],
@@ -126,8 +126,8 @@ class AlterarHorariosE2eTest extends TestCase
                 'uuid' => Uuid::uuid7()->toString(),
                 'medico_uuid' => $medico->uuid,
                 'data' => $dataDoAgendamento,
-                'hora_inicio' => $periodo->inicioDoIntervalo->format('H:i'),
-                'hora_fim' => $periodo->finalDoIntervalo->format('H:i'),
+                'hora_inicio' => $periodo->inicioDoIntervalo->format('Y-m-d H:i'),
+                'hora_fim' => $periodo->finalDoIntervalo->format('Y-m-d H:i'),
                 'status' => $periodo->statusHorarioEnum->value,
             ]);
             $horariosGerados[] = [
@@ -149,8 +149,8 @@ class AlterarHorariosE2eTest extends TestCase
             [
                 'data' => $dataDoAgendamento->format('Y-m-d'),
                 'novo_intervalo' => [
-                    'hora_inicio' => '12:00',
-                    'hora_fim' => '14:00',
+                    'hora_inicio' => $dataDoAgendamento->format('Y-m-d') . ' 12:00',
+                    'hora_fim' => $dataDoAgendamento->format('Y-m-d') . ' 14:00',
                 ],
                 'horarios_para_cancelar' => $horariosParaRemover,
             ],

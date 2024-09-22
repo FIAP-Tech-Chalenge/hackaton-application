@@ -28,10 +28,11 @@ readonly class AlterarHorariosUseCase
         UuidInterface $medicoUuid,
         Carbon $data
     ): AgendaEntity {
+        $conflitosDeHorarios = $this->horariosDisponiveisMapper->getConflitos($medicoUuid, $data, $novoIntervalo);
+        $this->verificaConflitosExistentes($conflitosDeHorarios, $horariosParaCancelarUuids);
         if ($horariosParaCancelarUuids) {
-            $conflitosDeHorarios = $this->horariosDisponiveisMapper->getConflitos($medicoUuid, $data, $novoIntervalo);
             if ($conflitosDeHorarios->count() > 0) {
-                $this->verificaConflitos($conflitosDeHorarios, $horariosParaCancelarUuids);
+                $this->verificaConflitosAoCancelar($conflitosDeHorarios, $horariosParaCancelarUuids);
                 $this->horariosDisponiveisCommand->cancelarHorariosDisponiveis($medicoUuid, $horariosParaCancelarUuids);
             }
         }
@@ -46,7 +47,10 @@ readonly class AlterarHorariosUseCase
     /**
      * @throws ExistemConflitosDeHorariosException
      */
-    public function verificaConflitos(IntervalosCollection $conflitosDeHorarios, array $horariosParaCancelarUuids): void
+    public function verificaConflitosAoCancelar(
+        IntervalosCollection $conflitosDeHorarios,
+        array $horariosParaCancelarUuids
+    ): void
     {
         $horariosConflitantesUuid = array_keys($conflitosDeHorarios->toArray());
         $intersect = array_intersect($horariosConflitantesUuid, $horariosParaCancelarUuids);
@@ -61,6 +65,28 @@ readonly class AlterarHorariosUseCase
                         'agendamento_para_cancelar' => $horariosParaCancelarUuids,
                         'horario_para_cancelar' => $horarioParaCancelar
                     ]
+                ]
+            );
+        }
+    }
+
+    /**
+     * @param IntervalosCollection $conflitosDeHorarios
+     * @param array $horariosParaCancelarUuids
+     * @return void
+     * @throws ExistemConflitosDeHorariosException
+     */
+    public function verificaConflitosExistentes(
+        IntervalosCollection $conflitosDeHorarios,
+        array $horariosParaCancelarUuids
+    ): void {
+        if ($conflitosDeHorarios->count() > 0 && empty($horariosParaCancelarUuids)) {
+            throw new ExistemConflitosDeHorariosException(
+                message: 'Existem conflitos de horários. Para alterar o agendamento, cancele os horários conflitantes.',
+                code: 422,
+                errors: [
+                    'conflitos' => $conflitosDeHorarios->toArray(),
+                    'agendamento_para_cancelar' => $horariosParaCancelarUuids
                 ]
             );
         }

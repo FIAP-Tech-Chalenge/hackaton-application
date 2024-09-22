@@ -5,8 +5,22 @@
         "version": "1.0.0",
         "description": "API documentation for Health&Med"
     },
+    "components": {
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "scheme": "bearer",
+                "bearerFormat": "JWT"
+            }
+        }
+    },
+    "security": [
+        {
+            "bearerAuth": []
+        }
+    ],
     "paths": {
-        "/api/v1/medicos/": {
+        "/api/v1/medicos/register": {
             "post": {
                 "summary": "Registre-se como médico",
                 "operationId": "registroMedico",
@@ -107,6 +121,835 @@
                                                     }
                                                 }
                                             }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/medicos/login": {
+            "post": {
+                "summary": "Login Medico",
+                "description": "Endpoint para login de médicos",
+                "tags": [
+                    "Medico"
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email",
+                                        "description": "Email do médico",
+                                        "example": "medico@example.com"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "format": "password",
+                                        "description": "Senha do médico",
+                                        "example": "password123"
+                                    }
+                                },
+                                "required": [
+                                    "email",
+                                    "password"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Login realizado com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "user": {
+                                            "type": "object",
+                                            "properties": {
+                                                "uuid": {
+                                                    "type": "string",
+                                                    "description": "UUID do usuário"
+                                                },
+                                                "email": {
+                                                    "type": "string",
+                                                    "description": "Email do usuário"
+                                                },
+                                                "medico": {
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "uuid": {
+                                                            "type": "string",
+                                                            "description": "UUID do médico"
+                                                        },
+                                                        "nome": {
+                                                            "type": "string",
+                                                            "description": "Nome do médico"
+                                                        },
+                                                        "crm": {
+                                                            "type": "string",
+                                                            "description": "CRM do médico"
+                                                        },
+                                                        "cpf": {
+                                                            "type": "string",
+                                                            "description": "CPF do médico"
+                                                        },
+                                                        "user_uuid": {
+                                                            "type": "string",
+                                                            "description": "UUID do usuário associado"
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        "access_token": {
+                                            "type": "string",
+                                            "description": "Token de autenticação"
+                                        },
+                                        "token_type": {
+                                            "type": "string",
+                                            "description": "Tipo do token"
+                                        },
+                                        "expires_in": {
+                                            "type": "string",
+                                            "description": "Data de expiração do token"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Credenciais inválidas",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Credenciais inválidas."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/medicos/logout": {
+            "post": {
+                "summary": "Logout Medico",
+                "description": "Endpoint para logout de médicos",
+                "tags": [
+                    "Medico"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Deslogado com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Deslogado com sucesso."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Não autorizado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Não autorizado."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/medicos/horarios/liberar": {
+            "post": {
+                "summary": "Liberar Horarios do Dia",
+                "description": "Endpoint para liberar horários do dia para médicos",
+                "tags": [
+                    "Medico"
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "data": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "description": "Data para liberar horários",
+                                        "example": "2023-10-01"
+                                    },
+                                    "periodo_atendimento": {
+                                        "type": "object",
+                                        "properties": {
+                                            "hora_inicio": {
+                                                "type": "string",
+                                                "format": "time",
+                                                "description": "Hora de início do período de atendimento",
+                                                "example": "08:00"
+                                            },
+                                            "hora_fim": {
+                                                "type": "string",
+                                                "format": "time",
+                                                "description": "Hora de fim do período de atendimento",
+                                                "example": "17:00"
+                                            }
+                                        }
+                                    },
+                                    "intervalos_indisponiveis": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "object",
+                                            "properties": {
+                                                "hora_inicio": {
+                                                    "type": "string",
+                                                    "format": "time",
+                                                    "description": "Hora de início do intervalo indisponível",
+                                                    "example": "12:00"
+                                                },
+                                                "hora_fim": {
+                                                    "type": "string",
+                                                    "format": "time",
+                                                    "description": "Hora de fim do intervalo indisponível",
+                                                    "example": "13:00"
+                                                }
+                                            }
+                                        }
+                                    },
+                                    "intervalo_por_agendamento": {
+                                        "type": "string",
+                                        "description": "Intervalo por agendamento",
+                                        "example": "15,30 ou 60"
+                                    }
+                                },
+                                "required": [
+                                    "data",
+                                    "periodo_atendimento.hora_inicio",
+                                    "periodo_atendimento.hora_fim",
+                                    "intervalo_por_agendamento"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Horários liberados com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Horários liberados com sucesso"
+                                        },
+                                        "count_horarios": {
+                                            "type": "integer",
+                                            "example": 10
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Erro de validação",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Dados inválidos"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Não autorizado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Não autorizado"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/medicos/horarios/alterar": {
+            "post": {
+                "summary": "Alterar Horarios do Dia",
+                "description": "Endpoint para alterar horários do dia para médicos",
+                "tags": [
+                    "Medico"
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "data": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "description": "Data para alterar horários",
+                                        "example": "2023-10-01"
+                                    },
+                                    "novo_intervalo": {
+                                        "type": "object",
+                                        "properties": {
+                                            "hora_inicio": {
+                                                "type": "string",
+                                                "format": "time",
+                                                "description": "Hora de início do novo intervalo",
+                                                "example": "08:00"
+                                            },
+                                            "hora_fim": {
+                                                "type": "string",
+                                                "format": "time",
+                                                "description": "Hora de fim do novo intervalo",
+                                                "example": "17:00"
+                                            }
+                                        }
+                                    },
+                                    "horarios_para_cancelar": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string",
+                                            "format": "uuid",
+                                            "description": "UUID dos horários a serem cancelados",
+                                            "example": "550e8400-e29b-41d4-a716-446655440000"
+                                        }
+                                    }
+                                },
+                                "required": [
+                                    "data",
+                                    "novo_intervalo.hora_inicio",
+                                    "novo_intervalo.hora_fim",
+                                    "horarios_para_cancelar"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Horários atualizados com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Horários atualizados com sucesso"
+                                        },
+                                        "count_horarios": {
+                                            "type": "integer",
+                                            "example": 10
+                                        },
+                                        "horarios_cancelados": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string",
+                                                "format": "uuid",
+                                                "example": "550e8400-e29b-41d4-a716-446655440000"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Erro de validação",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Dados inválidos"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Não autorizado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Não autorizado"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/pacientes/login": {
+            "post": {
+                "summary": "Login Paciente",
+                "description": "Endpoint para login de pacientes",
+                "tags": [
+                    "Paciente"
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email",
+                                        "description": "Email do paciente",
+                                        "example": "paciente@example.com"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "format": "password",
+                                        "description": "Senha do paciente",
+                                        "example": "password123"
+                                    }
+                                },
+                                "required": [
+                                    "email",
+                                    "password"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Login realizado com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "user": {
+                                            "type": "object",
+                                            "properties": {
+                                                "uuid": {
+                                                    "type": "string",
+                                                    "description": "UUID do usuário"
+                                                },
+                                                "email": {
+                                                    "type": "string",
+                                                    "description": "Email do usuário"
+                                                },
+                                                "paciente": {
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "uuid": {
+                                                            "type": "string",
+                                                            "description": "UUID do paciente"
+                                                        },
+                                                        "nome": {
+                                                            "type": "string",
+                                                            "description": "Nome do paciente"
+                                                        },
+                                                        "cpf": {
+                                                            "type": "string",
+                                                            "description": "CPF do paciente"
+                                                        },
+                                                        "user_uuid": {
+                                                            "type": "string",
+                                                            "description": "UUID do usuário associado"
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        "access_token": {
+                                            "type": "string",
+                                            "description": "Token de autenticação"
+                                        },
+                                        "token_type": {
+                                            "type": "string",
+                                            "description": "Tipo do token"
+                                        },
+                                        "expires_in": {
+                                            "type": "string",
+                                            "description": "Data de expiração do token"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Credenciais inválidas",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Credenciais inválidas."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/pacientes/logout": {
+            "post": {
+                "summary": "Logout Paciente",
+                "description": "Endpoint para logout de pacientes",
+                "tags": [
+                    "Paciente"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Deslogado com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Deslogado com sucesso."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Não autorizado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Não autorizado."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/pacientes/register": {
+            "post": {
+                "summary": "Registrar Paciente",
+                "description": "Endpoint para registrar pacientes",
+                "tags": [
+                    "Paciente"
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "nome": {
+                                        "type": "string",
+                                        "description": "Nome do paciente",
+                                        "example": "John Doe"
+                                    },
+                                    "cpf": {
+                                        "type": "string",
+                                        "description": "CPF do paciente",
+                                        "example": "123.456.789-00"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email",
+                                        "description": "Email do paciente",
+                                        "example": "paciente@example.com"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "format": "password",
+                                        "description": "Senha do paciente",
+                                        "example": "password123"
+                                    }
+                                },
+                                "required": [
+                                    "nome",
+                                    "cpf",
+                                    "email",
+                                    "password"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Paciente registrado com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "token": {
+                                            "type": "string",
+                                            "description": "Token de autenticação",
+                                            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Erro de validação",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Os dados fornecidos são inválidos."
+                                        },
+                                        "errors": {
+                                            "type": "object",
+                                            "properties": {
+                                                "cpf": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string",
+                                                        "example": "O CPF já está em uso."
+                                                    }
+                                                },
+                                                "email": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string",
+                                                        "example": "O email já está em uso."
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/pacientes/agendamentos/reservar": {
+            "post": {
+                "summary": "Reservar Horário",
+                "description": "Endpoint para reservar horários para pacientes",
+                "tags": [
+                    "Paciente"
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "horario_disponivel_uuid": {
+                                        "type": "string",
+                                        "format": "uuid",
+                                        "description": "UUID do horário disponível",
+                                        "example": "550e8400-e29b-41d4-a716-446655440000"
+                                    }
+                                },
+                                "required": [
+                                    "horario_disponivel_uuid"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Horário reservado com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Horário reservado com sucesso, você receberá um e-mail de confirmação."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Erro de validação",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Dados inválidos"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Não autorizado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Não autorizado"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/pacientes/medicos": {
+            "get": {
+                "summary": "Listar Médicos",
+                "description": "Endpoint para listar médicos disponíveis para pacientes",
+                "tags": [
+                    "Paciente"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Lista de médicos retornada com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "uuid": {
+                                                        "type": "string",
+                                                        "description": "UUID do médico"
+                                                    },
+                                                    "nome": {
+                                                        "type": "string",
+                                                        "description": "Nome do médico"
+                                                    },
+                                                    "especialidade": {
+                                                        "type": "string",
+                                                        "description": "Especialidade do médico"
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        "meta": {
+                                            "type": "object",
+                                            "properties": {
+                                                "current_page": {
+                                                    "type": "integer",
+                                                    "description": "Página atual"
+                                                },
+                                                "last_page": {
+                                                    "type": "integer",
+                                                    "description": "Última página"
+                                                },
+                                                "per_page": {
+                                                    "type": "integer",
+                                                    "description": "Itens por página"
+                                                },
+                                                "total": {
+                                                    "type": "integer",
+                                                    "description": "Total de itens"
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Não autorizado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Não autorizado"
                                         }
                                     }
                                 }
