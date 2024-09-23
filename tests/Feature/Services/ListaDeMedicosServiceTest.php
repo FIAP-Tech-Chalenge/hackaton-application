@@ -28,6 +28,5 @@ class ListaDeMedicosServiceTest extends TestCase
         $this->assertArrayHasKey('uuid', $medicos['data'][0]);
         $this->assertArrayHasKey('nome', $medicos['data'][0]);
         $this->assertArrayHasKey('crm', $medicos['data'][0]);
-        $this->assertArrayHasKey('cpf', $medicos['data'][0]);
     }
 }

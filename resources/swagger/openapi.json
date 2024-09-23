@@ -958,6 +958,124 @@
                     }
                 }
             }
+        },
+        "/api/v1/pacientes/horarios/disponiveis/{medicoUuid}/{data}": {
+            "get": {
+                "summary": "Listar Horários Disponíveis",
+                "description": "Endpoint para listar horários disponíveis para um médico em uma data específica",
+                "tags": [
+                    "Paciente"
+                ],
+                "parameters": [
+                    {
+                        "name": "medicoUuid",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        },
+                        "description": "UUID do médico"
+                    },
+                    {
+                        "name": "data",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        },
+                        "description": "Data para listar horários disponíveis"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Lista de horários disponíveis retornada com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "horarios": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "horario_uuid": {
+                                                        "type": "string",
+                                                        "format": "uuid",
+                                                        "description": "UUID do horário"
+                                                    },
+                                                    "hora_inicio": {
+                                                        "type": "string",
+                                                        "format": "time",
+                                                        "description": "Hora de início do horário"
+                                                    },
+                                                    "hora_fim": {
+                                                        "type": "string",
+                                                        "format": "time",
+                                                        "description": "Hora de fim do horário"
+                                                    },
+                                                    "status": {
+                                                        "type": "object",
+                                                        "properties": {
+                                                            "label": {
+                                                                "type": "string",
+                                                                "description": "Label do status"
+                                                            },
+                                                            "value": {
+                                                                "type": "string",
+                                                                "description": "Valor do status"
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Data inválida",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Data inválida"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Não autorizado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Não autorizado"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
         }
     }
 }
