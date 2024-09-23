@@ -56,8 +56,8 @@ class ReservarHorarioMapper implements ReservarHorarioMapperInterface
                 email: $reserva->paciente->user->email
             ),
             data: Carbon::parse($reserva->horarioDisponivel->data),
-            horaInicio: Carbon::parse($reserva->horarioDisponivel->horaInicio),
-            horaFim: Carbon::parse($reserva->horarioDisponivel->horaFim),
+            horaInicio: Carbon::parse($reserva->horarioDisponivel->hora_inicio),
+            horaFim: Carbon::parse($reserva->horarioDisponivel->hora_fim),
             status: StatusHorarioEnum::from($reserva->horarioDisponivel->status),
             assinaturaDoAgendamento: $reserva->assinatura_confirmacao
         );
