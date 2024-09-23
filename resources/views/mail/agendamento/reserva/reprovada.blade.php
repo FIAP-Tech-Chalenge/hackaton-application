@@ -1,6 +1,6 @@
 <x-mail::message>
 # Reserva Reprovada
-Ola, {{ $horarioReservadoEntity->pacienteEntity->nome }}!
+Olá, {{ $horarioReservadoEntity->pacienteEntity->nome }}!
 Sua reserva foi reprovada.
 
 <x-mail::panel>
@@ -13,7 +13,6 @@ Sua reserva foi reprovada.
     - **Hora de Fim:** {{ $horarioReservadoEntity->horaFim->format('H:i') }}<br>
     - **Status:** {{ $horarioReservadoEntity->getStatus()->name }}<br>
 </x-mail::panel>
-
 
 Obrigado,<br>
 {{ config('app.name') }}

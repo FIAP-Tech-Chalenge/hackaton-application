@@ -14,7 +14,6 @@ Você tem um novo agendamento de consulta confirmado.
     - **Status:** {{ $horarioReservadoEntity->getStatus()->name}}<br>
 </x-mail::panel>
 
-
-    Obrigado,<br>
+Obrigado,<br>
 {{ config('app.name') }}
 </x-mail::message>

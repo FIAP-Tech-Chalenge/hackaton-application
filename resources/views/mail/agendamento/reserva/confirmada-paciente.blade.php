@@ -1,7 +1,7 @@
 <x-mail::message>
 # Agendamento de consulta
 
-Ola, {{ $horarioReservadoEntity->pacienteEntity->nome }}!
+Olá, {{ $horarioReservadoEntity->pacienteEntity->nome }}!
 Sua reserva foi confirmada com sucesso!
 
 <x-mail::panel>
