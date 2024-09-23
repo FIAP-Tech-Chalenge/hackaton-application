@@ -16,7 +16,7 @@ services:
         container_name: php_hackaton
         build:
             context: ./docker/php
-            dockerfile: Dockerfile
+            dockerfile: DockerfileDev
             args:
                 user: ${USER}
                 uid: 1000
