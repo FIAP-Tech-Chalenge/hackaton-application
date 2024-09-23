@@ -2,17 +2,17 @@
 
 namespace App\Providers;
 
-use App\Infra\Adapters\Shared\HorariosDisponiveisCommand;
-use App\Infra\Adapters\Shared\HorariosDisponiveisMapper;
 use App\Infra\Adapters\Shared\MedicoMapper;
-use App\Infra\Adapters\Shared\PacienteMapper;
-use App\Infra\Adapters\Shared\ReservarHorarioCommand;
-use App\Infra\Adapters\Shared\ReservarHorarioMapper;
-use App\Modules\Shared\Gateways\HorariosDisponiveisCommandInterface;
-use App\Modules\Shared\Gateways\HorariosDisponiveisMapperInterface;
-use App\Modules\Shared\Gateways\PacienteMapperInterface;
-use App\Modules\Shared\Gateways\ReservarHorarioCommandInterface;
-use App\Modules\Shared\Gateways\ReservarHorarioMapperInterface;
+use App\Infra\Database\Commands\Horarios\HorariosDisponiveisCommand;
+use App\Infra\Database\Commands\Reservas\ReservarHorarioCommand;
+use App\Infra\Database\Mappers\Horarios\HorariosDisponiveisMapper;
+use App\Infra\Database\Mappers\Pacientes\PacienteMapper;
+use App\Infra\Database\Mappers\Reservas\ReservarHorarioMapper;
+use App\Modules\Shared\Gateways\Horarios\HorariosDisponiveisCommandInterface;
+use App\Modules\Shared\Gateways\Horarios\HorariosDisponiveisMapperInterface;
+use App\Modules\Shared\Gateways\Pacientes\PacienteMapperInterface;
+use App\Modules\Shared\Gateways\Reservas\ReservarHorarioCommandInterface;
+use App\Modules\Shared\Gateways\Reservas\ReservarHorarioMapperInterface;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider

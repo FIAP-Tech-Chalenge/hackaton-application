@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Modules\Shared\Gateways;
+namespace App\Modules\Shared\Gateways\Horarios;
 
 use App\Modules\Medicos\Entities\Horarios\IntervaloEntity;
 use App\Modules\Shared\Collections\Horarios\IntervalosCollection;

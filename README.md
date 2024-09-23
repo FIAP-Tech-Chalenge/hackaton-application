@@ -17,5 +17,10 @@ Necessita do redis
 
 php artisan horizon
 
+-----------------
+
+## Fluxo de reserva de horário
+
+![Image Description](resources/docs/reservar-horario-hackaton.png)
 
 

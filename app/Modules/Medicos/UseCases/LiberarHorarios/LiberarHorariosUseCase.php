@@ -7,8 +7,8 @@ use App\Modules\Medicos\Entities\Horarios\AgendaEntity;
 use App\Modules\Medicos\Entities\Horarios\PeriodoAtendimento;
 use App\Modules\Shared\Collections\Horarios\IntervalosCollection;
 use App\Modules\Shared\Exceptions\Horarios\MedicoJaPossuiAgendaNoDiaException;
-use App\Modules\Shared\Gateways\HorariosDisponiveisCommandInterface;
-use App\Modules\Shared\Gateways\HorariosDisponiveisMapperInterface;
+use App\Modules\Shared\Gateways\Horarios\HorariosDisponiveisCommandInterface;
+use App\Modules\Shared\Gateways\Horarios\HorariosDisponiveisMapperInterface;
 use Carbon\Carbon;
 use Ramsey\Uuid\UuidInterface;
 

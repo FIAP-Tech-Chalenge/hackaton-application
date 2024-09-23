@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Infra\Adapters\Shared;
+namespace App\Infra\Database\Mappers\Horarios;
 
 use App\Enums\StatusHorarioEnum;
 use App\Helpers\BuilderHelper;
@@ -8,7 +8,7 @@ use App\Models\HorarioDisponivel;
 use App\Modules\Medicos\Entities\Horarios\IntervaloEntity;
 use App\Modules\Shared\Collections\Horarios\IntervalosCollection;
 use App\Modules\Shared\Entities\HorarioEntity;
-use App\Modules\Shared\Gateways\HorariosDisponiveisMapperInterface;
+use App\Modules\Shared\Gateways\Horarios\HorariosDisponiveisMapperInterface;
 use Carbon\Carbon;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;

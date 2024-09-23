@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Infra\Adapters\Shared;
+namespace App\Infra\Database\Commands\Horarios;
 
 use App\Enums\StatusHorarioEnum;
 use App\Models\HorarioDisponivel;
 use App\Models\Medico;
 use App\Modules\Medicos\Entities\Horarios\IntervaloEntity;
 use App\Modules\Shared\Collections\Horarios\IntervalosCollection;
-use App\Modules\Shared\Gateways\HorariosDisponiveisCommandInterface;
+use App\Modules\Shared\Gateways\Horarios\HorariosDisponiveisCommandInterface;
 use Carbon\Carbon;
 use Ramsey\Uuid\UuidInterface;
 

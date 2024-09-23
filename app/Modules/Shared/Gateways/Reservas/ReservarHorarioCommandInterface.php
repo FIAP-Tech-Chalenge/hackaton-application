@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Modules\Shared\Gateways;
+namespace App\Modules\Shared\Gateways\Reservas;
 
 use App\Modules\Pacientes\Entities\ReservaEntity;
 use App\Modules\Shared\Entities\HorarioEntity;

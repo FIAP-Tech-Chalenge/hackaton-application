@@ -4,7 +4,7 @@ namespace Tests\Feature\Infra\Commands;
 
 use App\Enums\StatusHorarioEnum;
 use App\Modules\Shared\Entities\HorarioEntity;
-use App\Modules\Shared\Gateways\ReservarHorarioCommandInterface;
+use App\Modules\Shared\Gateways\Reservas\ReservarHorarioCommandInterface;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Ramsey\Uuid\Uuid;
 use Tests\TestCase;

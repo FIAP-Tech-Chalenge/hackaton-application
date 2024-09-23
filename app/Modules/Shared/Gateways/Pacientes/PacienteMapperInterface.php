@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Modules\Shared\Gateways;
+namespace App\Modules\Shared\Gateways\Pacientes;
 
 use App\Modules\Shared\Entities\PacienteEntity;
 use Ramsey\Uuid\UuidInterface;
