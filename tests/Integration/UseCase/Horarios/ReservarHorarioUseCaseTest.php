@@ -30,6 +30,7 @@ class ReservarHorarioUseCaseTest extends TestCase
             'reservado' => [StatusHorarioEnum::RESERVADO],
             'indisponivel' => [StatusHorarioEnum::INDISPONIVEL],
             'confirmado' => [StatusHorarioEnum::CONFIRMADO],
+            'cancelado' => [StatusHorarioEnum::CANCELADO],
         ];
     }
 

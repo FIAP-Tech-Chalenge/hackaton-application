@@ -9,3 +9,13 @@
 
 Coverage Report:
 vendor/bin/phpunit --coverage-html storage/app/public/coverage-report/
+
+Configurar Fila com horizon
+php artisan horizon:install
+
+Necessita do redis
+
+php artisan horizon
+
+
+

@@ -31,7 +31,9 @@ class ValidacaoDeReservaJobTest extends TestCase
         Notification::fake();
 
         $paciente = Paciente::factory()->create();
-        $horarioDisponivel = HorarioDisponivel::factory()->create();
+        $horarioDisponivel = HorarioDisponivel::factory()->create([
+            'status' => StatusHorarioEnum::RESERVADO->value,
+        ]);
         $reserva = PacienteHorarioDisponivel::factory()->create([
             'horario_disponivel_uuid' => $horarioDisponivel->uuid,
             'paciente_uuid' => $paciente->uuid,

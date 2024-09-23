@@ -34,7 +34,12 @@ class ReservaConfirmadaMedicoMail extends Notification
      */
     public function toMail(object $notifiable): MailMessage
     {
-        return (new MailMessage)->markdown('mail.agendamento.reserva.confirmada-medico');
+        return (new MailMessage)
+            ->subject('Novo agendamento')
+            ->markdown(
+                'mail.agendamento.reserva.confirmada-medico',
+                ['horarioReservadoEntity' => $this->horarioReservadoEntity]
+            );
     }
 
     /**
