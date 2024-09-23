@@ -4,7 +4,7 @@ namespace App\Infra\Adapters\Shared;
 
 use App\Models\Paciente;
 use App\Modules\Shared\Entities\PacienteEntity;
-use App\Modules\Shared\Gateways\PacienteMapperInterface;
+use App\Modules\Shared\Gateways\Pacientes\PacienteMapperInterface;
 use Ramsey\Uuid\UuidInterface;
 
 class PacienteMapper implements PacienteMapperInterface

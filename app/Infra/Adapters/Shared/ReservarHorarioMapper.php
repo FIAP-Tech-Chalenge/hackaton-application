@@ -8,7 +8,7 @@ use App\Models\PacienteHorarioDisponivel;
 use App\Modules\Shared\Entities\HorarioReservadoEntity;
 use App\Modules\Shared\Entities\MedicoEntity;
 use App\Modules\Shared\Entities\PacienteEntity;
-use App\Modules\Shared\Gateways\ReservarHorarioMapperInterface;
+use App\Modules\Shared\Gateways\Reservas\ReservarHorarioMapperInterface;
 use Carbon\Carbon;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;

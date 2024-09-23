@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Modules\Shared\Gateways;
+namespace App\Modules\Shared\Gateways\Reservas;
 
 use App\Modules\Shared\Entities\HorarioReservadoEntity;
 use Ramsey\Uuid\UuidInterface;

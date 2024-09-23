@@ -4,7 +4,7 @@ namespace Tests\Feature\Infra\Mappers;
 
 use App\Enums\StatusHorarioEnum;
 use App\Models\HorarioDisponivel;
-use App\Modules\Shared\Gateways\ReservarHorarioMapperInterface;
+use App\Modules\Shared\Gateways\Reservas\ReservarHorarioMapperInterface;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Ramsey\Uuid\Uuid;
 use Tests\TestCase;
@@ -25,7 +25,7 @@ class ReservarHorarioMapperTest extends TestCase
         $horarioFactory = HorarioDisponivel::factory()->create([
             'status' => StatusHorarioEnum::RESERVADO->value
         ]);
-        
+
         $reservarHorarioMapper = $this->app->make(ReservarHorarioMapperInterface::class);
 
         $retorno = $reservarHorarioMapper->getDetalhesDaReserva(Uuid::fromString($horarioFactory->uuid));

@@ -8,9 +8,9 @@ use App\Modules\Shared\Exceptions\Horarios\ErroAoReservarHorarioException;
 use App\Modules\Shared\Exceptions\Horarios\HorarioNaoDisponivelException;
 use App\Modules\Shared\Exceptions\Horarios\HorarioNaoEncontradoException;
 use App\Modules\Shared\Exceptions\Horarios\PacienteNaoEncontradoException;
-use App\Modules\Shared\Gateways\HorariosDisponiveisMapperInterface;
-use App\Modules\Shared\Gateways\PacienteMapperInterface;
-use App\Modules\Shared\Gateways\ReservarHorarioCommandInterface;
+use App\Modules\Shared\Gateways\Horarios\HorariosDisponiveisMapperInterface;
+use App\Modules\Shared\Gateways\Pacientes\PacienteMapperInterface;
+use App\Modules\Shared\Gateways\Reservas\ReservarHorarioCommandInterface;
 use Ramsey\Uuid\UuidInterface;
 
 readonly class ReservarHorarioUseCase

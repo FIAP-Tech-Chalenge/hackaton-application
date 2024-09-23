@@ -8,7 +8,7 @@ use App\Models\PacienteHorarioDisponivel;
 use App\Modules\Pacientes\Entities\ReservaEntity;
 use App\Modules\Shared\Entities\HorarioEntity;
 use App\Modules\Shared\Entities\HorarioReservadoEntity;
-use App\Modules\Shared\Gateways\ReservarHorarioCommandInterface;
+use App\Modules\Shared\Gateways\Reservas\ReservarHorarioCommandInterface;
 use Ramsey\Uuid\UuidInterface;
 use Symfony\Component\Uid\Ulid;
 
