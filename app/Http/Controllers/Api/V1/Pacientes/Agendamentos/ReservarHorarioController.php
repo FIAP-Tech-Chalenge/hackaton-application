@@ -5,13 +5,13 @@ namespace App\Http\Controllers\Api\V1\Pacientes\Agendamentos;
 use App\Http\Controllers\Controller;
 use App\Jobs\Agendamento\ValidacaoDeReservaJob;
 use App\Modules\Pacientes\UseCases\ReservarHorarioUseCase;
-use App\Modules\Shared\Exceptions\RegraException;
 use App\Modules\Shared\Gateways\HorariosDisponiveisMapperInterface;
 use App\Modules\Shared\Gateways\PacienteMapperInterface;
 use App\Modules\Shared\Gateways\ReservarHorarioCommandInterface;
 use App\Modules\Shared\Gateways\ReservarHorarioMapperInterface;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use LogicException;
 use Ramsey\Uuid\Uuid;
 use Throwable;
 
@@ -50,7 +50,7 @@ class ReservarHorarioController extends Controller
             )
                 ->delay(now()->addSeconds(10));
             DB::commit();
-        } catch (RegraException $e) {
+        } catch (LogicException $e) {
             DB::rollBack();
             return response()->json(['message' => $e->getMessage()], $e->getCode());
         } catch (Throwable $e) {

@@ -53,11 +53,12 @@ class HorariosDisponiveisMapper implements HorariosDisponiveisMapperInterface
         return $conflitos;
     }
 
-    public function getHorarioDisponivel(UuidInterface $horarioUuid): ?HorarioEntity
+    public function getHorarioDisponivelComLockForUpdate(UuidInterface $horarioUuid): ?HorarioEntity
     {
         $horario = HorarioDisponivel::query()
             ->select('medico_uuid', 'data', 'hora_inicio', 'hora_fim', 'status')
             ->where('uuid', '=', $horarioUuid->toString())
+            ->lockForUpdate()
             ->first();
 
         if (!$horario) {

@@ -3,8 +3,9 @@
 namespace App\Modules\Shared\Exceptions;
 
 use Exception;
+use LogicException;
 
-class RegraException extends Exception
+class RegraException extends LogicException
 {
     public function __construct(
         string $message,

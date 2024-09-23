@@ -6,13 +6,13 @@ use App\Enums\StatusHorarioEnum;
 use App\Http\Controllers\Controller;
 use App\Modules\Medicos\Entities\Horarios\IntervaloEntity;
 use App\Modules\Medicos\UseCases\AlterarHorarios\AlterarHorariosUseCase;
-use App\Modules\Shared\Exceptions\RegraException;
 use App\Modules\Shared\Gateways\HorariosDisponiveisCommandInterface;
 use App\Modules\Shared\Gateways\HorariosDisponiveisMapperInterface;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use LogicException;
 use Ramsey\Uuid\Uuid;
 use Throwable;
 
@@ -57,7 +57,7 @@ class AlterarHorarioDoDiaController extends Controller
                 data: Carbon::parse($request->input('data'))
             );
             DB::commit();
-        } catch (RegraException $e) {
+        } catch (LogicException $e) {
             DB::rollBack();
             return response()->json(
                 [

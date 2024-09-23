@@ -35,7 +35,7 @@ readonly class ReservarHorarioUseCase
             throw new PacienteNaoEncontradoException('Paciente não encontrado', 404);
         }
 
-        $horarioEntity = $this->horariosDisponiveisMapper->getHorarioDisponivel($horarioDisponivelUuid);
+        $horarioEntity = $this->horariosDisponiveisMapper->getHorarioDisponivelComLockForUpdate($horarioDisponivelUuid);
         if (!$horarioEntity) {
             throw new HorarioNaoEncontradoException('Horário não encontrado', 404);
         }
