@@ -58,6 +58,7 @@ class HorariosDisponiveisMapper implements HorariosDisponiveisMapperInterface
         $horario = HorarioDisponivel::query()
             ->select('medico_uuid', 'data', 'hora_inicio', 'hora_fim', 'status')
             ->where('uuid', '=', $horarioUuid->toString())
+            ->lockForUpdate()
             ->first();
 
         if (!$horario) {

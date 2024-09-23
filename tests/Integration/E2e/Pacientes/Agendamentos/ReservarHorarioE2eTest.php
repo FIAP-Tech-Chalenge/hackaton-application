@@ -64,4 +64,48 @@ class ReservarHorarioE2eTest extends TestCase
         Queue::assertPushed(ValidacaoDeReservaJob::class);
         Queue::assertCount(1);
     }
+
+    public function test_deve_lidar_quando_mais_de_uma_solicitacao_para_o_mesmo_horario_ocorrer()
+    {
+        // Arrange
+        $user = User::factory()->create([
+            'tipo' => TipoUsuarioEnum::PACIENTE->value,
+        ]);
+        $paciente = Paciente::factory()->create([
+            'user_uuid' => $user->uuid,
+        ]);
+        $horarioDisponivel = HorarioDisponivel::factory()->create([
+            'status' => StatusHorarioEnum::DISPONIVEL->value,
+        ]);
+        Sanctum::actingAs($user, ['paciente']);
+        Queue::fake();
+
+        // Act
+        for ($i = 0; $i < 3; $i++) {
+            $responses[] = $this->postJson(
+                route('pacientes.agendamentos.reservar'),
+                [
+                    'horario_disponivel_uuid' => $horarioDisponivel->uuid,
+                ],
+                [
+                    'Accept' => 'application/json',
+                    'Content-Type' => 'application/json',
+                ]
+            );
+        }
+
+        // Assert
+        // Verifica se apenas uma requisição foi bem-sucedida
+        $successfulResponses = array_filter($responses, function ($response) {
+            return $response->status() === 201;
+        });
+
+        $this->assertCount(1, $successfulResponses);
+
+        // Verifica se as outras duas requisições falharam
+        $failedResponses = array_filter($responses, function ($response) {
+            return $response->status() !== 201;
+        });
+        $this->assertCount(2, $failedResponses);
+    }
 }
