@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Infra\Adapters\Shared;
+namespace App\Infra\Database\Mappers\Horarios;
 
 use App\Enums\StatusHorarioEnum;
 use App\Helpers\BuilderHelper;

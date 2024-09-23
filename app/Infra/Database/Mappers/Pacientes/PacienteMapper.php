@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Infra\Adapters\Shared;
+namespace App\Infra\Database\Mappers\Pacientes;
 
 use App\Models\Paciente;
 use App\Modules\Shared\Entities\PacienteEntity;

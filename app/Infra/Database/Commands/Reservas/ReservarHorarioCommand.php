@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Infra\Adapters\Shared;
+namespace App\Infra\Database\Commands\Reservas;
 
 use App\Enums\StatusHorarioEnum;
 use App\Models\HorarioDisponivel;
