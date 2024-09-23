@@ -66,8 +66,7 @@ class ValidacaoDeReservaJobTest extends TestCase
         Notification::assertSentTo([$paciente->user], ReservaConfirmadaPacienteMail::class);
     }
 
-    #[Group('integration_job_validar_reserva_de_horario_2')]
-    public function test_deve_enviar_email_quando_horario_nao_estiver_reservado()
+    public function test_deve_enviar_email_de_cancelamento_quando_horario_nao_estiver_reservado()
     {
         // Arrange
         Notification::fake();
@@ -95,6 +94,37 @@ class ValidacaoDeReservaJobTest extends TestCase
 
         // Assert
         Notification::assertSentTo([$paciente->user], ReservaReprovadaPacienteMail::class);
+    }
+
+    public function test_deve_enviar_email_quando_horario_nao_o_paciente_nao_for_o_mesmo_que_fez_a_reserva()
+    {
+        // Arrange
+        Notification::fake();
+        $pacienteSolicitante = Paciente::factory()->create();
+        $pacienteDaReserva = Paciente::factory()->create();
+        $horarioDisponivel = HorarioDisponivel::factory()->create([
+            'status' => StatusHorarioEnum::RESERVADO->value,
+        ]);
+        $reserva = PacienteHorarioDisponivel::factory()->create([
+            'horario_disponivel_uuid' => $horarioDisponivel->uuid,
+            'paciente_uuid' => $pacienteDaReserva->uuid,
+            'assinatura_confirmacao' => Ulid::generate(),
+        ]);
+
+        // Act
+        ValidacaoDeReservaJob::dispatch(
+            new ReservaEntity(
+                horarioDisponivelUuid: Uuid::fromString($horarioDisponivel->uuid),
+                pacienteUuid: Uuid::fromString($pacienteSolicitante->uuid),
+                assinaturaConfirmacao: $reserva->assinatura_confirmacao,
+                medicoUuid: Uuid::fromString($horarioDisponivel->medico->uuid),
+            ),
+            $this->app->make(ReservarHorarioCommandInterface::class),
+            $this->app->make(ReservarHorarioMapperInterface::class)
+        );
+
+        // Assert
+        Notification::assertSentTo([$pacienteSolicitante->user], ReservaReprovadaPacienteMail::class);
     }
 
 }
