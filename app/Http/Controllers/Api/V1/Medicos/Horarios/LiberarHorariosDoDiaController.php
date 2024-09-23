@@ -15,6 +15,7 @@ use App\Modules\Shared\Gateways\HorariosDisponiveisMapperInterface;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rules\Enum;
 use Ramsey\Uuid\Uuid;
 use Throwable;
@@ -41,6 +42,7 @@ class LiberarHorariosDoDiaController extends Controller
         $user = Auth::user()->load('medico:uuid,user_uuid');
 
         try {
+            DB::beginTransaction();
             $periodoDeAtendimento = new PeriodoAtendimento(
                 Carbon::parse($request->input('periodo_atendimento.hora_inicio')),
                 Carbon::parse($request->input('periodo_atendimento.hora_fim'))
@@ -68,9 +70,12 @@ class LiberarHorariosDoDiaController extends Controller
                 medicoUuid: Uuid::fromString($user->medico->uuid),
                 data: Carbon::parse($request->input('data'))
             );
+            DB::commit();
         } catch (RegraException $e) {
+            DB::rollBack();
             return response()->json(['message' => $e->getMessage()], 400);
         } catch (Throwable $e) {
+            DB::rollBack();
             throw $e;
         }
 

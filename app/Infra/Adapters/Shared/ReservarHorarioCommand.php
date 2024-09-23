@@ -50,4 +50,17 @@ class ReservarHorarioCommand implements ReservarHorarioCommandInterface
                 'status' => $horarioEntity->getStatus()->value
             ]);
     }
+
+    public function cancelarReserva(HorarioReservadoEntity $horarioReservado): void
+    {
+        HorarioDisponivel::query()
+            ->where('uuid', '=', $horarioReservado->horarioUuid->toString())
+            ->where('medico_uuid', '=', $horarioReservado->medicoEntity->uuid->toString())
+            ->update([
+                'status' => StatusHorarioEnum::DISPONIVEL->value
+            ]);
+        PacienteHorarioDisponivel::query()
+            ->where('horario_disponivel_uuid', '=', $horarioReservado->horarioUuid->toString())
+            ->delete();
+    }
 }

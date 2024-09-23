@@ -11,6 +11,7 @@ use App\Modules\Shared\Gateways\PacienteMapperInterface;
 use App\Modules\Shared\Gateways\ReservarHorarioCommandInterface;
 use App\Modules\Shared\Gateways\ReservarHorarioMapperInterface;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Ramsey\Uuid\Uuid;
 use Throwable;
 
@@ -30,8 +31,8 @@ class ReservarHorarioController extends Controller
             'horario_disponivel_uuid' => ['required', 'uuid'],
         ]);
         $paciente = $request->user()->load('paciente:uuid,user_uuid');
-
         try {
+            DB::beginTransaction();
             $useCase = new ReservarHorarioUseCase(
                 horariosDisponiveisMapper: $this->horariosDisponiveisMapper,
                 reservarHorarioCommand: $this->reservarHorarioCommand,
@@ -47,15 +48,18 @@ class ReservarHorarioController extends Controller
                 $this->reservarHorarioCommand,
                 $this->reservarHorarioMapper
             )
-                ->delay(now()->addMinutes(10));
+                ->delay(now()->addSeconds(10));
+            DB::commit();
         } catch (RegraException $e) {
+            DB::rollBack();
             return response()->json(['message' => $e->getMessage()], $e->getCode());
         } catch (Throwable $e) {
+            DB::rollBack();
             throw $e;
         }
 
         return response()->json([
-            'message' => 'Horário reservado com sucesso, você receberá um e-mail de confirmação.'
+            'message' => 'Horário solicitado, você receberá um e-mail com o retorno do agendamento.'
         ], 201);
     }
 }

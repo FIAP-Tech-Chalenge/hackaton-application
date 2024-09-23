@@ -12,6 +12,7 @@ use App\Modules\Shared\Gateways\HorariosDisponiveisMapperInterface;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Ramsey\Uuid\Uuid;
 use Throwable;
 
@@ -44,6 +45,7 @@ class AlterarHorarioDoDiaController extends Controller
 
         $horariosParaCancelar = $request->input('horarios_para_cancelar');
         try {
+            DB::beginTransaction();
             $useCase = new AlterarHorariosUseCase(
                 horariosDisponiveisCommand: $this->horariosDisponiveisCommand,
                 horariosDisponiveisMapper: $this->horariosDisponiveisMapper
@@ -54,7 +56,9 @@ class AlterarHorarioDoDiaController extends Controller
                 medicoUuid: Uuid::fromString($user->medico->uuid),
                 data: Carbon::parse($request->input('data'))
             );
+            DB::commit();
         } catch (RegraException $e) {
+            DB::rollBack();
             return response()->json(
                 [
                     'message' => $e->getMessage(),
@@ -63,6 +67,7 @@ class AlterarHorarioDoDiaController extends Controller
                 $e->getCode()
             );
         } catch (Throwable $e) {
+            DB::rollBack();
             throw $e;
         }
 

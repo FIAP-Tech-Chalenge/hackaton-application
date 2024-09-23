@@ -34,7 +34,14 @@ class ReservaReprovadaPacienteMail extends Notification
      */
     public function toMail(object $notifiable): MailMessage
     {
-        return (new MailMessage)->markdown('mail.agendamento.reserva.reprovada');
+        return (new MailMessage)
+            ->subject('Reserva reprovada')
+            ->markdown(
+                'mail.agendamento.reserva.reprovada',
+                [
+                    'horarioReservadoEntity' => $this->horarioReservadoEntity
+                ]
+            );
     }
 
     /**

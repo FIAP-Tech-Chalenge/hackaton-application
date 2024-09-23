@@ -11,11 +11,17 @@ use App\Notifications\Agendamento\Reserva\ReservaConfirmadaMedicoMail;
 use App\Notifications\Agendamento\Reserva\ReservaConfirmadaPacienteMail;
 use App\Notifications\Agendamento\Reserva\ReservaReprovadaPacienteMail;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Foundation\Queue\Queueable;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Queue\SerializesModels;
 
 class ValidacaoDeReservaJob implements ShouldQueue
 {
     use Queueable;
+    use Dispatchable;
+    use InteractsWithQueue;
+    use SerializesModels;
 
     public function __construct(
         private readonly ReservaEntity $reservaEntity,
@@ -38,7 +44,9 @@ class ValidacaoDeReservaJob implements ShouldQueue
             })
             ->first();
 
-        if ($horarioReservado->getStatus() !== StatusHorarioEnum::DISPONIVEL) {
+        if ($horarioReservado->getStatus() !== StatusHorarioEnum::RESERVADO) {
+            $this->reservarHorarioCommand->cancelarReserva($horarioReservado);
+
             $pacienteUser->notify(new ReservaReprovadaPacienteMail($horarioReservado));
             return;
         }
@@ -52,7 +60,6 @@ class ValidacaoDeReservaJob implements ShouldQueue
                     ->whereColumn('user_uuid', 'users.uuid');
             })
             ->first();
-
 
         $horarioReservado->setStatus(StatusHorarioEnum::CONFIRMADO);
         $this->reservarHorarioCommand->confirmarReserva($horarioReservado);

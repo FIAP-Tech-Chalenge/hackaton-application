@@ -55,7 +55,7 @@ class ReservarHorarioE2eTest extends TestCase
             'status' => StatusHorarioEnum::RESERVADO->value,
         ]);
         $response->assertJson([
-            'message' => 'Horário reservado com sucesso, você receberá um e-mail de confirmação.',
+            'message' => 'Horário solicitado, você receberá um e-mail com o retorno do agendamento.',
         ]);
         $response->assertJsonStructure([
             'message',

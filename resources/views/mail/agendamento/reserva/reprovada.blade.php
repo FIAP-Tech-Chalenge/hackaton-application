@@ -1,18 +1,17 @@
-
 <x-mail::message>
 # Reserva Reprovada
-Ola, {{ $user->name }}!
+Ola, {{ $horarioReservadoEntity->pacienteEntity->nome }}!
 Sua reserva foi reprovada.
 
 <x-mail::panel>
-    **Detalhes da Reserva:**
-    - **UUID do Horário:** {{ $horarioReservadoEntity-> }}
-    - **Médico:** {{ $horarioReservadoEntity->medicoEntity->name }}
-    - **Paciente:** {{ $horarioReservadoEntity->pacienteEntity->name }}
-    - **Data:** {{ $horarioReservadoEntity->data->toFormattedDateString() }}
-    - **Hora de Início:** {{ $horarioReservadoEntity->horaInicio->format('H:i') }}
-    - **Hora de Fim:** {{ $horarioReservadoEntity->horaFim->format('H:i') }}
-    - **Status:** {{ $horarioReservadoEntity->getStatus()->label() }}
+    **Detalhes da Reserva:**<br>
+    - **UUID do Horário:** {{ $horarioReservadoEntity->horarioUuid }} <br>
+    - **Médico:** {{ $horarioReservadoEntity->medicoEntity->nome }}<br>
+    - **Paciente:** {{ $horarioReservadoEntity->pacienteEntity->nome }}<br>
+    - **Data:** {{ $horarioReservadoEntity->data->toFormattedDateString() }}<br>
+    - **Hora de Início:** {{ $horarioReservadoEntity->horaInicio->format('H:i') }}<br>
+    - **Hora de Fim:** {{ $horarioReservadoEntity->horaFim->format('H:i') }}<br>
+    - **Status:** {{ $horarioReservadoEntity->getStatus()->name }}<br>
 </x-mail::panel>
 
 
