@@ -7,6 +7,14 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
+/**
+ * @property mixed $uuid
+ * @property mixed $hora_inicio
+ * @property mixed $hora_fim
+ * @property mixed $status
+ * @property mixed $medico_uuid
+ * @property mixed $data
+ */
 class HorarioDisponivel extends Model
 {
     use HasFactory;

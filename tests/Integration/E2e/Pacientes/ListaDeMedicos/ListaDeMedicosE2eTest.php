@@ -40,7 +40,6 @@ class ListaDeMedicosE2eTest extends TestCase
                     'uuid',
                     'nome',
                     'crm',
-                    'cpf',
                 ],
             ],
         ]);

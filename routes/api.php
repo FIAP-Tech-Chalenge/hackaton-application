@@ -9,6 +9,7 @@ use App\Http\Controllers\Api\V1\Auth\Paciente\RegistrarPacienteController;
 use App\Http\Controllers\Api\V1\Medicos\Horarios\AlterarHorarioDoDiaController;
 use App\Http\Controllers\Api\V1\Medicos\Horarios\LiberarHorariosDoDiaController;
 use App\Http\Controllers\Api\V1\Pacientes\Agendamentos\ReservarHorarioController;
+use App\Http\Controllers\Api\V1\Pacientes\Horarios\ListarHorariosDisponiveisController;
 use App\Http\Controllers\Api\V1\Pacientes\Medicos\ListarMedicosController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -47,6 +48,13 @@ Route::prefix('v1')->group(function () {
             Route::group(['prefix' => 'medicos'], function () {
                 Route::get('/', [ListarMedicosController::class, '__invoke'])
                     ->name('pacientes.medicos.listar');
+            });
+
+            Route::group(['prefix' => 'horarios'], function () {
+                Route::get('disponiveis/{medicoUuid}/{data}', [ListarHorariosDisponiveisController::class, '__invoke'])
+                    ->whereUuid('medicoUuid')
+                    ->where('data', '\d{4}-\d{2}-\d{2}')
+                    ->name('pacientes.horarios.disponiveis');
             });
 
             Route::group(['prefix' => 'agendamentos'], function () {

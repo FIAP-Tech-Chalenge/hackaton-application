@@ -10,6 +10,7 @@ class ListaDeMedicosService
     public function execute(int $perPage = 15): Paginator
     {
         return Medico::query()
+            ->select('uuid', 'nome', 'crm')
             ->simplePaginate($perPage);
     }
 }
