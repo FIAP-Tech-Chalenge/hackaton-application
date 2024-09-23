@@ -9,7 +9,6 @@ use App\Modules\Medicos\Entities\Horarios\IntervaloEntity;
 use App\Modules\Medicos\Entities\Horarios\PeriodoAtendimento;
 use App\Modules\Medicos\UseCases\LiberarHorarios\LiberarHorariosUseCase;
 use App\Modules\Shared\Collections\Horarios\IntervalosCollection;
-use App\Modules\Shared\Exceptions\RegraException;
 use App\Modules\Shared\Gateways\HorariosDisponiveisCommandInterface;
 use App\Modules\Shared\Gateways\HorariosDisponiveisMapperInterface;
 use Carbon\Carbon;
@@ -17,6 +16,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rules\Enum;
+use LogicException;
 use Ramsey\Uuid\Uuid;
 use Throwable;
 
@@ -71,7 +71,7 @@ class LiberarHorariosDoDiaController extends Controller
                 data: Carbon::parse($request->input('data'))
             );
             DB::commit();
-        } catch (RegraException $e) {
+        } catch (LogicException $e) {
             DB::rollBack();
             return response()->json(['message' => $e->getMessage()], 400);
         } catch (Throwable $e) {
