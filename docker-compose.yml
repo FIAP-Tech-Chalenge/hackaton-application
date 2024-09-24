@@ -68,27 +68,24 @@ services:
     #     - redis
     #     networks:
     #     - internal
-#    mysql:
-#        image: 'mysql/mysql-server:8.0'
-#        container_name: 'db_hackaton'
-#        ports:
-#        - '${FORWARD_DB_PORT:-3306}:3306'
-#        environment:
-#            MYSQL_ROOT_PASSWORD: 'password'
-#            MYSQL_ROOT_HOST: "%"
-#            MYSQL_DATABASE: 'my-database'
-#            MYSQL_USER: 'my-user'
-#            MYSQL_PASSWORD: 'password'
-#            MYSQL_ALLOW_EMPTY_PASSWORD: 1
-#        volumes:
-#            - 'db-data-hackaton:/var/lib/mysql'
-#        # - './vendor/laravel/sail/database/mysql/create-testing-database.sh:/docker-entrypoint-initdb.d/10-create-testing-database.sh'
-#        networks:
-#            - internal
-#        healthcheck:
-#            test: [ "CMD", "mysqladmin", "ping", "-p password" ]
-#            retries: 3
-#            timeout: 5s
+    mariadb:
+        image: 'mariadb:latest'
+        container_name: 'mariadb_hackaton'
+        ports:
+            - '${FORWARD_DB_PORT:-3306}:3306'
+        environment:
+            MYSQL_ROOT_PASSWORD: 'rootpassword'
+            MYSQL_DATABASE: 'laravel'
+            MYSQL_USER: 'laraveluser'
+            MYSQL_PASSWORD: 'laravelpassword'
+        volumes:
+            - 'db-data-hackaton:/var/lib/mysql'
+        networks:
+            - internal
+        healthcheck:
+            test: [ "CMD", "mysqladmin", "ping", "-p rootpassword" ]
+            retries: 3
+            timeout: 5s
 networks:
     internal:
         driver: bridge
