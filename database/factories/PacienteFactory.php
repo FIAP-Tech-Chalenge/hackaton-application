@@ -21,8 +21,8 @@ class PacienteFactory extends Factory
         return [
             'uuid' => $this->faker->uuid,
             'nome' => $this->faker->name,
-            'cpf' => $this->faker->numerify('###.###.###-##'),
-            'user_uuid' => User::factory(),
+            'cpf' => $this->faker->numerify('###########'),
+            'user_id' => User::factory(),
         ];
     }
 }

@@ -15,8 +15,8 @@ return new class extends Migration {
             $table->string('nome');
             $table->string('cpf');
             $table->string('crm');
-            $table->foreignUuid('user_uuid')
-                ->constrained('users', 'uuid')
+            $table->foreignId('user_id')
+                ->constrained('users')
                 ->onDelete('cascade');
             $table->timestamps();
         });

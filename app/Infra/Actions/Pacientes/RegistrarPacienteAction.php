@@ -23,12 +23,13 @@ class RegistrarPacienteAction
                 'password' => bcrypt($password),
                 'tipo' => TipoUsuarioEnum::PACIENTE->value,
             ]);
+
         Paciente::query()
             ->create([
                 'uuid' => Uuid::uuid7()->toString(),
                 'nome' => $nome,
                 'cpf' => $cpf,
-                'user_uuid' => $user->uuid,
+                'user_id' => $user->id,
             ]);
 
         return $user;

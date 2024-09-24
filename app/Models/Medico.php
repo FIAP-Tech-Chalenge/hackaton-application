@@ -23,12 +23,12 @@ class Medico extends Model
         'nome',
         'cpf',
         'crm',
-        'user_uuid',
+        'user_id',
     ];
 
     public function user(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'user_uuid', 'uuid');
+        return $this->belongsTo(User::class);
     }
 
     public function horariosDisponiveis(): HasMany

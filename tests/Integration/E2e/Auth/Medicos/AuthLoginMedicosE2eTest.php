@@ -18,7 +18,7 @@ class AuthLoginMedicosE2eTest extends TestCase
         // Arrange
         $user = User::factory()->create();
         Medico::factory()->create([
-            'user_uuid' => $user->uuid,
+            'user_id' => $user->id,
         ]);
 
         // Act
@@ -48,7 +48,7 @@ class AuthLoginMedicosE2eTest extends TestCase
         $this->assertArrayHasKey('email', $response->json('user'));
         $this->assertArrayHasKey('medico', $response->json('user'));
         $this->assertArrayHasKey('uuid', $response->json('user.medico'));
-        $this->assertArrayHasKey('user_uuid', $response->json('user.medico'));
+        $this->assertArrayHasKey('user_id', $response->json('user.medico'));
         $this->assertArrayHasKey('nome', $response->json('user.medico'));
         $this->assertArrayHasKey('crm', $response->json('user.medico'));
         $this->assertArrayHasKey('cpf', $response->json('user.medico'));

@@ -18,7 +18,7 @@ class AuthLoginPacientesE2eTest extends TestCase
         // Arrange
         $user = User::factory()->create();
         Paciente::factory()->create([
-            'user_uuid' => $user->uuid,
+            'user_id' => $user->id,
         ]);
 
         // Act
@@ -49,7 +49,7 @@ class AuthLoginPacientesE2eTest extends TestCase
         $this->assertArrayHasKey('paciente', $response->json('user'));
         $this->assertArrayHasKey('uuid', $response->json('user.paciente'));
         $this->assertArrayHasKey('nome', $response->json('user.paciente'));
-        $this->assertArrayHasKey('user_uuid', $response->json('user.paciente'));
+        $this->assertArrayHasKey('user_id', $response->json('user.paciente'));
         $this->assertArrayHasKey('cpf', $response->json('user.paciente'));
     }
 }

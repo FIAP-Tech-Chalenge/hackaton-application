@@ -36,7 +36,7 @@ class AlterarHorariosE2eTest extends TestCase
         $this->actingAs($user,);
 
         Medico::factory()->create([
-            'user_uuid' => $user->uuid,
+            'user_id' => $user->id,
         ]);
 
         $dataDoAgendamento = now()->startOfDay();
@@ -114,7 +114,7 @@ class AlterarHorariosE2eTest extends TestCase
         );
 
         $medico = Medico::factory()->create([
-            'user_uuid' => $user->uuid,
+            'user_id' => $user->id,
         ]);
         $periodoAtendimento = new PeriodoAtendimento(Carbon::parse('08:00'), Carbon::parse('18:00'));
         $periodos = $periodoAtendimento->montarAgendaDoDia(

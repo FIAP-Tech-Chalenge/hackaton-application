@@ -19,7 +19,7 @@ class AuthLogoutMedicosE2eTest extends TestCase
         $user = User::factory()->create();
 
         Medico::factory()->create([
-            'user_uuid' => $user->uuid,
+            'user_id' => $user->id,
         ]);
 
         $response = $this->postJson(

@@ -30,7 +30,7 @@ class ReservarHorarioController extends Controller
         $request->validate([
             'horario_disponivel_uuid' => ['required', 'uuid'],
         ]);
-        $paciente = $request->user()->load('paciente:uuid,user_uuid');
+        $paciente = $request->user()->loadMissing('paciente:uuid,user_id');
         try {
             DB::beginTransaction();
             $useCase = new ReservarHorarioUseCase(

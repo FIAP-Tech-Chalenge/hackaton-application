@@ -39,7 +39,7 @@ class ValidacaoDeReservaJobTest extends TestCase
             'paciente_uuid' => $paciente->uuid,
             'assinatura_confirmacao' => Ulid::generate(),
         ]);
-
+        
         // Act
         ValidacaoDeReservaJob::dispatch(
             new ReservaEntity(
