@@ -20,7 +20,7 @@ class Paciente extends Model
         'uuid',
         'nome',
         'cpf',
-        'user_uuid',
+        'user_id',
     ];
 
     public function user(): BelongsTo

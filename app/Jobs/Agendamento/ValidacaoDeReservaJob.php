@@ -35,12 +35,12 @@ class ValidacaoDeReservaJob implements ShouldQueue
         $horarioReservado = $this->reservarHorarioMapper
             ->getDetalhesDaReserva($this->reservaEntity->horarioDisponivelUuid);
         $pacienteUser = User::query()
-            ->select('uuid', 'email')
+            ->select('uuid', 'email', 'id')
             ->whereExists(function ($query) {
                 $query->select('uuid')
                     ->from('pacientes')
                     ->where('uuid', '=', $this->reservaEntity->pacienteUuid->toString())
-                    ->whereColumn('user_uuid', 'users.uuid');
+                    ->whereColumn('user_id', 'users.id');
             })
             ->first();
         // verificar se o horário ainda está disponível
@@ -67,12 +67,12 @@ class ValidacaoDeReservaJob implements ShouldQueue
         }
 
         $medicoUser = User::query()
-            ->select('uuid', 'email')
+            ->select('uuid', 'email', 'id')
             ->whereExists(function ($query) use ($horarioReservado) {
                 $query->select('uuid')
                     ->from('medicos')
                     ->where('uuid', '=', $horarioReservado->medicoEntity->uuid->toString())
-                    ->whereColumn('user_uuid', 'users.uuid');
+                    ->whereColumn('user_id', 'users.id');
             })
             ->first();
 

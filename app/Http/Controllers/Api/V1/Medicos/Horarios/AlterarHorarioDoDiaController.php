@@ -34,7 +34,7 @@ class AlterarHorarioDoDiaController extends Controller
             'horarios_para_cancelar.*' => ['required', 'uuid'],
         ]);
 
-        $user = Auth::user()->load('medico:uuid,user_uuid');
+        $user = Auth::user()->load('medico:uuid,user_id');
 
         $novoIntervalo = new IntervaloEntity(
             inicioDoIntervalo: Carbon::parse($request->input('novo_intervalo.hora_inicio')),

@@ -21,7 +21,7 @@ class LoginMedicoController extends Controller
             ], 401);
         }
 
-        $user = auth()->user()->load('medico:uuid,nome,crm,cpf,user_uuid');
+        $user = auth()->user()->load('medico:uuid,nome,crm,cpf,user_id');
         $token = $user->createToken('auth_token', [TipoUsuarioEnum::MEDICO->value]);
 
         return response()->json([

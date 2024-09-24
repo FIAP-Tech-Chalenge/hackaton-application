@@ -45,7 +45,7 @@ class DatabaseSeeder extends Seeder
             'tipo' => TipoUsuarioEnum::MEDICO->value,
         ]);
         $this->medico = Medico::factory()->create([
-            'uuid' => $user->uuid,
+            'user_id' => $user->id,
         ]);
         $this->montarHorariosDisponiveis(now()->startOfDay());
     }
@@ -56,7 +56,7 @@ class DatabaseSeeder extends Seeder
             'tipo' => TipoUsuarioEnum::PACIENTE->value,
         ]);
         $this->paciente = Paciente::factory()->create([
-            'user_uuid' => $user->uuid,
+            'user_id' => $user->id,
         ]);
 
         $this->atribuirPacienteAoHorarioDisponivel();

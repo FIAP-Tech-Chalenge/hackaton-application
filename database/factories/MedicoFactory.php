@@ -21,9 +21,9 @@ class MedicoFactory extends Factory
         return [
             'uuid' => $this->faker->uuid,
             'nome' => $this->faker->name,
-            'cpf' => $this->faker->numerify('###.###.###-##'),
+            'cpf' => $this->faker->numerify('###########'),
             'crm' => $this->faker->randomNumber(6),
-            'user_uuid' => User::factory(),
+            'user_id' => User::factory(),
         ];
     }
 }

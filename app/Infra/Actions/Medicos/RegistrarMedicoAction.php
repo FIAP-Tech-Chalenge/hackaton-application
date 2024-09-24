@@ -31,7 +31,7 @@ class RegistrarMedicoAction
                 'nome' => $nome,
                 'cpf' => $cpf,
                 'crm' => $crm,
-                'user_uuid' => $user->uuid,
+                'user_id' => $user->id,
             ]);
 
         return $user;
