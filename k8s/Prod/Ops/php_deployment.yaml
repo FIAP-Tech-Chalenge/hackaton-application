@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: php
+  labels:
+    tier: backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: php
+      tier: backend
+  template:
+    metadata:
+      labels:
+        app: php
+        tier: backend
+    spec:
+      enableServiceLinks: false
+      containers:
+        - name: php
+          image: rigonlucas/hackaton-fpm:latest
+          imagePullPolicy: Always
+          volumeMounts:
+            - name: code
+              mountPath: /code
+          lifecycle:
+            postStart:
+              exec:
+                command: [ "/bin/sh", "-c", "cp -r /var/www/html/. /code" ]
+      volumes:
+        - name: code
+          persistentVolumeClaim:
+            claimName: code
