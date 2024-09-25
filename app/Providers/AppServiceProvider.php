@@ -2,7 +2,6 @@
 
 namespace App\Providers;
 
-use App\Infra\Adapters\Shared\MedicoMapper;
 use App\Infra\Database\Commands\Horarios\HorariosDisponiveisCommand;
 use App\Infra\Database\Commands\Reservas\ReservarHorarioCommand;
 use App\Infra\Database\Mappers\Horarios\HorariosDisponiveisMapper;

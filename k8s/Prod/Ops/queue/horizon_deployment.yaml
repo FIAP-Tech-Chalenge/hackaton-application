@@ -1,26 +1,24 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: php
+  name: horizon
   labels:
-    tier: backend
+    app: horizon
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: php
-      tier: backend
+      app: horizon
   template:
     metadata:
       labels:
-        app: php
-        tier: backend
+        app: horizon
     spec:
-      enableServiceLinks: false
       containers:
-        - name: php
+        - name: horizon
           image: rigonlucas/hackaton-fpm:1.0.2-RC
           imagePullPolicy: Always
+          command: [ "php", "artisan", "horizon" ]
           env:
             - name: APP_URL
               value: http://192.168.85.2/
@@ -45,10 +43,6 @@ spec:
           volumeMounts:
             - name: code
               mountPath: /code
-          lifecycle:
-            postStart:
-              exec:
-                command: [ "/bin/sh", "-c", "cp -r /var/www/html/. /code" ]
       volumes:
         - name: code
           persistentVolumeClaim:

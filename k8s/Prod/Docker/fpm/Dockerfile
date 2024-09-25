@@ -20,6 +20,10 @@ COPY /composer.json composer.json
 
 RUN composer install --prefer-dist --no-ansi --no-dev --no-autoloader
 
+# Install Redis extension
+RUN pecl install redis \
+    && docker-php-ext-enable redis
+
 RUN composer dump-autoload -o
 
 FROM base AS build-fpm
