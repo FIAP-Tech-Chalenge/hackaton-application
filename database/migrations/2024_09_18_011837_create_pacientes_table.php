@@ -13,7 +13,7 @@ return new class extends Migration {
         Schema::create('pacientes', function (Blueprint $table) {
             $table->uuid()->primary();
             $table->string('nome', 100);
-            $table->string('cpf', 11)->unique();
+            $table->string('cpf', 50)->unique();
             $table->foreignId('user_id')
                 ->constrained('users')
                 ->onDelete('cascade');

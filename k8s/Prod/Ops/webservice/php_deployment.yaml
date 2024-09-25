@@ -19,7 +19,7 @@ spec:
       enableServiceLinks: false
       containers:
         - name: php
-          image: rigonlucas/hackaton-fpm:latest
+          image: rigonlucas/hackaton-fpm:1.0.0-RC
           imagePullPolicy: Always
           env:
             - name: DB_CONNECTION
