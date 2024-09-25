@@ -26,7 +26,7 @@ class ReservarHorarioMapper implements ReservarHorarioMapperInterface
         }
 
         $reserva = PacienteHorarioDisponivel::query()
-            ->select('uuid', 'horario_disponivel_uuid', 'paciente_uuid', 'assinatura_confirmacao')
+            ->select('horario_disponivel_uuid', 'paciente_uuid', 'assinatura_confirmacao')
             ->where('horario_disponivel_uuid', '=', $horarioDisponivelUuid->toString())
             ->with([
                 'horarioDisponivel:uuid,medico_uuid,data,hora_inicio,hora_fim,status',

@@ -4,10 +4,11 @@ namespace App\Notifications\Agendamento\Reserva;
 
 use App\Modules\Shared\Entities\HorarioReservadoEntity;
 use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class ReservaConfirmadaPacienteMail extends Notification
+class ReservaConfirmadaPacienteMail extends Notification implements ShouldQueue
 {
     use Queueable;
 

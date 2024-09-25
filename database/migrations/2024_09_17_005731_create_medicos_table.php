@@ -13,7 +13,7 @@ return new class extends Migration {
         Schema::create('medicos', function (Blueprint $table) {
             $table->uuid()->primary();
             $table->string('nome');
-            $table->string('cpf');
+            $table->string('cpf', '50')->unique();
             $table->string('crm');
             $table->foreignId('user_id')
                 ->constrained('users')

@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-basic
+  labels:
+    tier: backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nginx
+      tier: backend
+  template:
+    metadata:
+      labels:
+        app: nginx
+        tier: backend
+    spec:
+      containers:
+        - name: nginx
+          image: rigonlucas/basic-nginx:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 80
