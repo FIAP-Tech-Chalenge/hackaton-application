@@ -5,16 +5,19 @@ namespace App\Jobs\Agendamento;
 use App\Enums\StatusHorarioEnum;
 use App\Models\User;
 use App\Modules\Pacientes\Entities\ReservaEntity;
+use App\Modules\Shared\Entities\HorarioReservadoEntity;
 use App\Modules\Shared\Gateways\Reservas\ReservarHorarioCommandInterface;
 use App\Modules\Shared\Gateways\Reservas\ReservarHorarioMapperInterface;
 use App\Notifications\Agendamento\Reserva\ReservaConfirmadaMedicoMail;
 use App\Notifications\Agendamento\Reserva\ReservaConfirmadaPacienteMail;
 use App\Notifications\Agendamento\Reserva\ReservaReprovadaPacienteMail;
+use Exception;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Foundation\Queue\Queueable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\DB;
 
 class ValidacaoDeReservaJob implements ShouldQueue
 {
@@ -32,8 +35,28 @@ class ValidacaoDeReservaJob implements ShouldQueue
 
     public function handle(): void
     {
-        $horarioReservado = $this->reservarHorarioMapper
-            ->getDetalhesDaReserva($this->reservaEntity->horarioDisponivelUuid);
+        try {
+            DB::beginTransaction();
+            $horarioReservado = $this->reservarHorarioMapper->getDetalhesDaReserva(
+                $this->reservaEntity->horarioDisponivelUuid
+            );
+            if ($horarioReservado === null) {
+                DB::rollBack();
+                return;
+            }
+            $this->iniciarConfirmacaoDaReserva($horarioReservado);
+            DB::commit();
+        } catch (Exception $exception) {
+            DB::rollBack();
+            RestaurarHorariosNaoConfirmadosJob::dispatch(
+                $this->reservaEntity,
+                $horarioReservado
+            );
+        }
+    }
+
+    private function iniciarConfirmacaoDaReserva(HorarioReservadoEntity $horarioReservado): void
+    {
         $pacienteUser = User::query()
             ->select('uuid', 'email', 'id')
             ->whereExists(function ($query) {
@@ -52,15 +75,14 @@ class ValidacaoDeReservaJob implements ShouldQueue
         }
 
         /**
-         * Verificar se o paciente que está tentando confirmar a reserva é o mesmo que fez a reserva
-         * garante que o paciente não está tentando confirmar a reserva de outra pessoa [problema de concorrência]
-         * É o terceiro mecanismo de segurança para evitar problemas de concorrência
-         * - O primeiro é a verificação se já existe uma reserva para o horário [sync]
-         * - O segundo é um lock no banco de dados, onde a primeira requisição que chegar vai travar o registro e as demais vão esperar [sync]
-         * - - app/Modules/Shared/Gateways/HorariosDisponiveisMapperInterface.php
-         * - - getHorarioDisponivelComLockForUpdate(UuidInterface $uuid): ?HorarioDisponivelEntity;
-         * - O terceiro é a verificação se o paciente que está tentando confirmar a reserva é o mesmo que fez a reserva [async/fila]
-         **/
+         * Verifica se o paciente que está confirmando a reserva é o mesmo que fez a reserva.
+         * Este é o terceiro mecanismo de segurança para evitar problemas de concorrência:
+         * 1. Verificação se já existe uma reserva para o horário [sync].
+         * 2. Lock no banco de dados para a primeira requisição que chegar [sync].
+         *    - app/Modules/Shared/Gateways/HorariosDisponiveisMapperInterface.php
+         *    - getHorarioDisponivelComLockForUpdate(UuidInterface $uuid): ?HorarioDisponivelEntity;
+         * 3. Verificação se o paciente que está confirmando a reserva é o mesmo que fez a reserva [async/fila].
+         */
         if ($this->reservaEntity->pacienteUuid->toString() !== $horarioReservado->pacienteEntity->uuid->toString()) {
             $pacienteUser->notify(new ReservaReprovadaPacienteMail($horarioReservado));
             return;

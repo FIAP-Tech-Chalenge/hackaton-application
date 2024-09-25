@@ -11,7 +11,7 @@ interface ReservarHorarioCommandInterface
 {
     public function reservarHorario(HorarioEntity $horarioEntity, UuidInterface $pacienteUuid): ?ReservaEntity;
 
-    public function confirmarReserva(HorarioReservadoEntity $horarioEntity);
+    public function confirmarReserva(HorarioReservadoEntity $horarioEntity): void;
 
     public function cancelarReserva(HorarioReservadoEntity $horarioReservado): void;
 }

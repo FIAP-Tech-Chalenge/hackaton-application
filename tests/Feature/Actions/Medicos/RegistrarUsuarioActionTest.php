@@ -18,7 +18,7 @@ class RegistrarUsuarioActionTest extends TestCase
         // Act
         $user = RegistrarMedicoAction::execute(
             nome: 'Nome',
-            cpf: '123.456.789-00',
+            cpf: '12345678900',
             crm: '123456',
             email: 'email@email',
             password: 12345678
@@ -32,7 +32,7 @@ class RegistrarUsuarioActionTest extends TestCase
 
         $this->assertDatabaseHas('medicos', [
             'nome' => 'Nome',
-            'cpf' => '123.456.789-00',
+            'cpf' => '12345678900',
             'crm' => '123456',
             'user_id' => $user->id,
         ]);

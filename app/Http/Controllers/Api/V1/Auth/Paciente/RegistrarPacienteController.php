@@ -13,7 +13,7 @@ class RegistrarPacienteController extends Controller
     {
         $request->validate([
             'nome' => ['required'],
-            'cpf' => ['required', 'unique:pacientes,cpf'],
+            'cpf' => ['required', 'unique:pacientes,cpf', 'regex:/^\d+$/'],
             'email' => ['required', 'email', 'unique:users,email'],
             'password' => ['required', 'min:6'],
         ]);

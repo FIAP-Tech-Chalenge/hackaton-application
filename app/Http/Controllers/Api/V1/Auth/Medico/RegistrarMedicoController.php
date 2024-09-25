@@ -13,7 +13,7 @@ class RegistrarMedicoController extends Controller
     {
         $request->validate([
             'nome' => ['required'],
-            'cpf' => ['required', 'unique:medicos,cpf'],
+            'cpf' => ['required', 'unique:medicos,cpf', 'regex:/^\d+$/'],
             'crm' => ['required', 'unique:medicos,crm'],
             'email' => ['required', 'email', 'unique:users,email'],
             'password' => ['required', 'min:6'],
