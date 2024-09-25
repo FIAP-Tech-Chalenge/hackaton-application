@@ -19,7 +19,7 @@ spec:
       enableServiceLinks: false
       containers:
         - name: php
-          image: rigonlucas/hackaton-fpm:1.0.3-RC
+          image: rigonlucas/hackaton-fpm:1.0.4-RC
           imagePullPolicy: Always
           env:
             - name: APP_URL

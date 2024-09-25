@@ -1,13 +1,12 @@
 <x-mail::message>
-# Reserva Reprovada
-Olá, {{ $horarioReservadoEntity->pacienteEntity->nome }}!
-Sua reserva foi reprovada.
+# Horário indisponível
+Olá, {{ $pacienteEntity->nome }}!
+Sua reserva não foi aprovada, pois o horário não está mais disponível.
 
 <x-mail::panel>
-    **Detalhes da Reserva:**<br>
+    **Detalhes do Horário:**<br>
     - **UUID do Horário:** {{ $horarioReservadoEntity->horarioUuid }} <br>
-    - **Médico:** {{ $horarioReservadoEntity->medicoEntity->nome }}<br>
-    - **Paciente:** {{ $horarioReservadoEntity->pacienteEntity->nome }}<br>
+    - **Médico:** {{ $medicoEntity->nome }}<br>
     - **Data:** {{ $horarioReservadoEntity->data->format('d/m/Y') }}<br>
     - **Hora de Início:** {{ $horarioReservadoEntity->horaInicio->format('H:i') }}<br>
     - **Hora de Fim:** {{ $horarioReservadoEntity->horaFim->format('H:i') }}<br>

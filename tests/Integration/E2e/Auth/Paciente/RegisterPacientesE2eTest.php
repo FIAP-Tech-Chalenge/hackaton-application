@@ -18,7 +18,7 @@ class RegisterPacientesE2eTest extends TestCase
         // Act
         $response = $this->postJson(route('pacientes.register'), [
                 'nome' => 'John Doe',
-                'cpf' => '123.456.789-00',
+                'cpf' => '12345678900',
                 'email' => 'email@email.com',
                 'password' => 'password',
             ]
@@ -35,7 +35,7 @@ class RegisterPacientesE2eTest extends TestCase
         ]);
         $this->assertDatabaseHas('pacientes', [
             'nome' => 'John Doe',
-            'cpf' => '123.456.789-00',
+            'cpf' => '12345678900',
         ]);
     }
 
@@ -64,7 +64,7 @@ class RegisterPacientesE2eTest extends TestCase
         // Act
         $response = $this->postJson(route('pacientes.register'), [
             'nome' => 'John Doe',
-            'cpf' => '123.456.789-00',
+            'cpf' => '12345678900',
             'email' => $paciente->user->email,
         ]);
 

@@ -18,7 +18,7 @@ class RegisterMedicosE2eTest extends TestCase
         // Act
         $response = $this->postJson(route('medicos.register'), [
                 'nome' => 'John Doe',
-                'cpf' => '123.456.789-00',
+                'cpf' => '12345678900',
                 'crm' => '123456',
                 'email' => 'email@email.com',
                 'password' => 'password',
@@ -35,7 +35,7 @@ class RegisterMedicosE2eTest extends TestCase
         ]);
         $this->assertDatabaseHas('medicos', [
             'nome' => 'John Doe',
-            'cpf' => '123.456.789-00',
+            'cpf' => '12345678900',
             'crm' => '123456',
         ]);
     }
@@ -68,7 +68,7 @@ class RegisterMedicosE2eTest extends TestCase
         // Act
         $response = $this->postJson(route('medicos.register'), [
             'nome' => 'John Doe',
-            'cpf' => '123.456.789-00',
+            'cpf' => '12345678900',
             'crm' => $medico->crm,
             'email' => 'email@email.com',
         ]);
@@ -87,7 +87,7 @@ class RegisterMedicosE2eTest extends TestCase
         // Act
         $response = $this->postJson(route('medicos.register'), [
             'nome' => 'John Doe',
-            'cpf' => '123.456.789-00',
+            'cpf' => '12345678900',
             'crm' => '123456',
             'email' => $medico->user->email,
         ]);

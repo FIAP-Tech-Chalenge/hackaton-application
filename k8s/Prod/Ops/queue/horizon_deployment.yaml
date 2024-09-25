@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: horizon
-          image: rigonlucas/hackaton-fpm:1.0.3-RC
+          image: rigonlucas/hackaton-fpm:1.0.4-RC
           imagePullPolicy: Always
           command: [ "php", "artisan", "horizon" ]
           env:
