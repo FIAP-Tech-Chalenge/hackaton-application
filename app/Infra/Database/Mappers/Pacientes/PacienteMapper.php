@@ -13,9 +13,9 @@ class PacienteMapper implements PacienteMapperInterface
     public function getPaciente(UuidInterface $uuid): ?PacienteEntity
     {
         $paciente = Paciente::query()
-            ->select('uuid', 'nome', 'cpf', 'user_uuid')
+            ->select('uuid', 'nome', 'cpf', 'user_id')
             ->where('uuid', '=', $uuid->toString())
-            ->with('user:uuid,email')
+            ->with('user:id,email,uuid')
             ->first();
         if (!$paciente) {
             return null;

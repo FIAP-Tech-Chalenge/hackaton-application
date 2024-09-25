@@ -26,7 +26,7 @@ class ReservarHorarioE2eTest extends TestCase
             'tipo' => TipoUsuarioEnum::PACIENTE->value,
         ]);
         $paciente = Paciente::factory()->create([
-            'user_uuid' => $user->uuid,
+            'user_id' => $user->id,
         ]);
         $horarioDisponivel = HorarioDisponivel::factory()->create();
         Sanctum::actingAs($user, ['paciente']);
@@ -72,7 +72,7 @@ class ReservarHorarioE2eTest extends TestCase
             'tipo' => TipoUsuarioEnum::PACIENTE->value,
         ]);
         $paciente = Paciente::factory()->create([
-            'user_uuid' => $user->uuid,
+            'user_id' => $user->id,
         ]);
         $horarioDisponivel = HorarioDisponivel::factory()->create([
             'status' => StatusHorarioEnum::DISPONIVEL->value,

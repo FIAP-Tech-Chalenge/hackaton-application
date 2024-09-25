@@ -32,7 +32,7 @@ class RegistrarUsuarioActionTest extends TestCase
         $this->assertDatabaseHas('pacientes', [
             'nome' => 'Nome',
             'cpf' => '123.456.789-00',
-            'user_uuid' => $user->uuid,
+            'user_id' => $user->id,
         ]);
     }
 

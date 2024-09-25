@@ -58,7 +58,7 @@ class ListaDeHorariosDisponiveisTest extends TestCase
             'tipo' => TipoUsuarioEnum::PACIENTE->value,
         ]);
         $paccienteFactory = Paciente::factory()->create([
-            'user_uuid' => $user->uuid,
+            'user_id' => $user->id,
         ]);
         Sanctum::actingAs($user, ['paciente']);
 

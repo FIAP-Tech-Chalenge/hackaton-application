@@ -21,7 +21,7 @@ class LoginPacienteController extends Controller
             ], 401);
         }
 
-        $user = auth()->user()->load('paciente:uuid,user_uuid,nome,cpf');
+        $user = auth()->user()->load('paciente:uuid,user_id,nome,cpf');
         $token = $user->createToken('auth_token', [TipoUsuarioEnum::PACIENTE->value]);
 
         return response()->json([

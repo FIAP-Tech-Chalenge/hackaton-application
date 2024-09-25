@@ -25,7 +25,7 @@ class LiberarHorariosE2eTest extends TestCase
         $this->actingAs($user,);
 
         Medico::factory()->create([
-            'user_uuid' => $user->uuid,
+            'user_id' => $user->id,
         ]);
 
         $dataDaAgenda = now()->startOfDay();

@@ -30,10 +30,10 @@ class ReservarHorarioMapper implements ReservarHorarioMapperInterface
             ->where('horario_disponivel_uuid', '=', $horarioDisponivelUuid->toString())
             ->with([
                 'horarioDisponivel:uuid,medico_uuid,data,hora_inicio,hora_fim,status',
-                'horarioDisponivel.medico:uuid,nome,crm,user_uuid',
-                'horarioDisponivel.medico.user:uuid,email',
-                'paciente:uuid,nome,cpf,user_uuid',
-                'paciente.user:uuid,email'
+                'horarioDisponivel.medico:uuid,nome,crm,user_id',
+                'horarioDisponivel.medico.user:id,email',
+                'paciente:uuid,nome,cpf,user_id',
+                'paciente.user:id,email'
             ])
             ->first();
 

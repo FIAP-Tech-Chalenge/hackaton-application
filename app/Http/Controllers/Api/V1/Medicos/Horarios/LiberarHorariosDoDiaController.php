@@ -39,7 +39,7 @@ class LiberarHorariosDoDiaController extends Controller
             'intervalos_indisponiveis.*.hora_fim' => ['required', 'date_format:H:i'],
             'intervalo_por_agendamento' => ['required', new Enum(IntervalosDeAgendamentosEnum::class)],
         ]);
-        $user = Auth::user()->load('medico:uuid,user_uuid');
+        $user = Auth::user()->load('medico:uuid,user_id');
 
         try {
             DB::beginTransaction();
