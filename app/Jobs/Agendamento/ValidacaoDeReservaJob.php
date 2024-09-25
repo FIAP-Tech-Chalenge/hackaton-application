@@ -39,7 +39,6 @@ class ValidacaoDeReservaJob implements ShouldQueue
             $this->reservaEntity->horarioDisponivelUuid
         );
         if ($horarioReservado === null) {
-            DB::rollBack();
             return;
         }
         try {
