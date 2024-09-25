@@ -27,7 +27,7 @@ class AlterarHorarioDoDiaController extends Controller
     public function __invoke(Request $request)
     {
         $request->validate([
-            'data' => ['required', 'date_format:Y-m-d'],
+            'data' => ['required', 'date_format:Y-m-d', 'after_or_equal:today'],
             'novo_intervalo.hora_inicio' => ['required', 'date_format:Y-m-d H:i'],
             'novo_intervalo.hora_fim' => ['required', 'date_format:Y-m-d H:i'],
             'horarios_para_cancelar' => ['array'],

@@ -31,7 +31,7 @@ class LiberarHorariosDoDiaController extends Controller
     public function __invoke(Request $request)
     {
         $request->validate([
-            'data' => ['required', 'date_format:Y-m-d'],
+            'data' => ['required', 'date_format:Y-m-d', 'after_or_equal:today'],
             'periodo_atendimento.hora_inicio' => ['required', 'date_format:H:i'],
             'periodo_atendimento.hora_fim' => ['required', 'date_format:H:i'],
             'intervalos_indisponiveis' => ['array'],
