@@ -35,15 +35,15 @@ class ValidacaoDeReservaJob implements ShouldQueue
 
     public function handle(): void
     {
+        $horarioReservado = $this->reservarHorarioMapper->getDetalhesDaReserva(
+            $this->reservaEntity->horarioDisponivelUuid
+        );
+        if ($horarioReservado === null) {
+            DB::rollBack();
+            return;
+        }
         try {
             DB::beginTransaction();
-            $horarioReservado = $this->reservarHorarioMapper->getDetalhesDaReserva(
-                $this->reservaEntity->horarioDisponivelUuid
-            );
-            if ($horarioReservado === null) {
-                DB::rollBack();
-                return;
-            }
             $this->iniciarConfirmacaoDaReserva($horarioReservado);
             DB::commit();
         } catch (Exception $exception) {
