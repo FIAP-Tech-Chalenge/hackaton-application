@@ -11,6 +11,7 @@ use App\Http\Controllers\Api\V1\Medicos\Horarios\LiberarHorariosDoDiaController;
 use App\Http\Controllers\Api\V1\Pacientes\Agendamentos\ReservarHorarioController;
 use App\Http\Controllers\Api\V1\Pacientes\Horarios\ListarHorariosDisponiveisController;
 use App\Http\Controllers\Api\V1\Pacientes\Medicos\ListarMedicosController;
+use App\Http\Controllers\Api\V1\Shared\LGPD\SolicitarAnonimizacaoController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -33,6 +34,11 @@ Route::prefix('v1')->group(function () {
                     ->name('medicos.horarios.liberar-agenda-do-dia');
                 Route::post('alterar', [AlterarHorarioDoDiaController::class, '__invoke'])
                     ->name('medicos.horarios.alterar');
+            });
+
+            Route::group(['prefix' => 'lgpd'], function () {
+                Route::post('solicitar-anonimizacao', [SolicitarAnonimizacaoController::class, '__invoke'])
+                    ->name('medicos.lgpd.solicitar-anonimizacao');
             });
         });
     });
@@ -60,6 +66,11 @@ Route::prefix('v1')->group(function () {
             Route::group(['prefix' => 'agendamentos'], function () {
                 Route::post('reservar', [ReservarHorarioController::class, '__invoke'])
                     ->name('pacientes.agendamentos.reservar');
+            });
+
+            Route::group(['prefix' => 'lgpd'], function () {
+                Route::post('solicitar-anonimizacao', [SolicitarAnonimizacaoController::class, '__invoke'])
+                    ->name('pacientes.lgpd.solicitar-anonimizacao');
             });
         });
     });
