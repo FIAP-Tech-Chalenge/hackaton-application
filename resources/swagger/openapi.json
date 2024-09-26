@@ -540,6 +540,66 @@
                 }
             }
         },
+        "/api/v1/medicos/lgpd/solicitar-anonimizacao": {
+            "post": {
+                "summary": "Solicitar Anonimização de Dados (Medico)",
+                "operationId": "solicitarAnonimizacaoMedico",
+                "tags": [
+                    "Medico"
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Solicitação de anonimização realizada com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Solicitação de anonimização realizada com sucesso. Efetivaremos a anonimização dos seus dados em 7 dias."
+                                        },
+                                        "user": {
+                                            "type": "object",
+                                            "properties": {
+                                                "uuid": {
+                                                    "type": "string",
+                                                    "example": "550e8400-e29b-41d4-a716-446655440000"
+                                                },
+                                                "email": {
+                                                    "type": "string",
+                                                    "example": "medico@example.com"
+                                                }
+                                            }
+                                        },
+                                        "protocolo_anonimizacao": {
+                                            "type": "string",
+                                            "example": "550e8400-e29b-41d4-a716-446655440000"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Não autorizado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Não autorizado."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/v1/pacientes/login": {
             "post": {
                 "summary": "Login Paciente",
@@ -1075,6 +1135,66 @@
                         "bearerAuth": []
                     }
                 ]
+            }
+        },
+        "/api/v1/medicos/lgpd/solicitar-anonimizacao": {
+            "post": {
+                "summary": "Solicitar Anonimização de Dados (Medico)",
+                "operationId": "solicitarAnonimizacaoMedico",
+                "tags": [
+                    "Medico"
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Solicitação de anonimização realizada com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Solicitação de anonimização realizada com sucesso. Efetivaremos a anonimização dos seus dados em 7 dias."
+                                        },
+                                        "user": {
+                                            "type": "object",
+                                            "properties": {
+                                                "uuid": {
+                                                    "type": "string",
+                                                    "example": "550e8400-e29b-41d4-a716-446655440000"
+                                                },
+                                                "email": {
+                                                    "type": "string",
+                                                    "example": "medico@example.com"
+                                                }
+                                            }
+                                        },
+                                        "protocolo_anonimizacao": {
+                                            "type": "string",
+                                            "example": "550e8400-e29b-41d4-a716-446655440000"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Não autorizado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Não autorizado."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
             }
         }
     }
