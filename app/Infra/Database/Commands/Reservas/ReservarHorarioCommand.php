@@ -4,7 +4,7 @@ namespace App\Infra\Database\Commands\Reservas;
 
 use App\Enums\StatusHorarioEnum;
 use App\Models\HorarioDisponivel;
-use App\Models\PacienteHorarioDisponivel;
+use App\Models\PacienteAgendamento;
 use App\Modules\Pacientes\Entities\ReservaEntity;
 use App\Modules\Shared\Entities\HorarioEntity;
 use App\Modules\Shared\Entities\HorarioReservadoEntity;
@@ -27,7 +27,7 @@ class ReservarHorarioCommand implements ReservarHorarioCommandInterface
             return null;
         }
         $assinaturaConfirmacao = Ulid::generate();
-        PacienteHorarioDisponivel::query()->create([
+        PacienteAgendamento::query()->create([
             'horario_disponivel_uuid' => $horarioEntity->horarioUuid->toString(),
             'paciente_uuid' => $pacienteUuid->toString(),
             'assinatura_confirmacao' => $assinaturaConfirmacao,
@@ -59,7 +59,7 @@ class ReservarHorarioCommand implements ReservarHorarioCommandInterface
             ->update([
                 'status' => StatusHorarioEnum::DISPONIVEL->value
             ]);
-        PacienteHorarioDisponivel::query()
+        PacienteAgendamento::query()
             ->where('horario_disponivel_uuid', '=', $horarioReservado->horarioUuid->toString())
             ->delete();
     }

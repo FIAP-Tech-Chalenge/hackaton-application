@@ -4,7 +4,7 @@ namespace App\Infra\Database\Mappers\Reservas;
 
 use App\Enums\StatusHorarioEnum;
 use App\Models\HorarioDisponivel;
-use App\Models\PacienteHorarioDisponivel;
+use App\Models\PacienteAgendamento;
 use App\Modules\Shared\Entities\HorarioReservadoEntity;
 use App\Modules\Shared\Entities\MedicoEntity;
 use App\Modules\Shared\Entities\PacienteEntity;
@@ -25,7 +25,7 @@ class ReservarHorarioMapper implements ReservarHorarioMapperInterface
             return null;
         }
 
-        $reserva = PacienteHorarioDisponivel::query()
+        $reserva = PacienteAgendamento::query()
             ->select('horario_disponivel_uuid', 'paciente_uuid', 'assinatura_confirmacao')
             ->where('horario_disponivel_uuid', '=', $horarioDisponivelUuid->toString())
             ->with([

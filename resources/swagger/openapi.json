@@ -36,7 +36,7 @@
                                 "properties": {
                                     "nome": {
                                         "type": "string",
-                                        "example": "Dr. Fulano"
+                                        "example": "Fulano"
                                     },
                                     "cpf": {
                                         "type": "string",
