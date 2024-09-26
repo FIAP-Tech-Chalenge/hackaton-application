@@ -47,7 +47,7 @@ class ReservarHorarioUseCaseTest extends TestCase
         );
 
         // Assert
-        $this->assertDatabaseHas('paciente_horarios_disponiveis', [
+        $this->assertDatabaseHas('paciente_agendamentos', [
             'horario_disponivel_uuid' => $horarioDisponivel->uuid,
             'paciente_uuid' => $pacienteFactory->uuid,
             'assinatura_confirmacao' => $reservaEntity->assinaturaConfirmacao

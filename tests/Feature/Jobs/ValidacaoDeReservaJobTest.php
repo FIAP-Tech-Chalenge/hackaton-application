@@ -6,7 +6,7 @@ use App\Enums\StatusHorarioEnum;
 use App\Jobs\Agendamento\ValidacaoDeReservaJob;
 use App\Models\HorarioDisponivel;
 use App\Models\Paciente;
-use App\Models\PacienteHorarioDisponivel;
+use App\Models\PacienteAgendamento;
 use App\Modules\Pacientes\Entities\ReservaEntity;
 use App\Modules\Shared\Gateways\Reservas\ReservarHorarioCommandInterface;
 use App\Modules\Shared\Gateways\Reservas\ReservarHorarioMapperInterface;
@@ -36,7 +36,7 @@ class ValidacaoDeReservaJobTest extends TestCase
         $horarioDisponivel = HorarioDisponivel::factory()->create([
             'status' => StatusHorarioEnum::RESERVADO->value,
         ]);
-        $reserva = PacienteHorarioDisponivel::factory()->create([
+        $reserva = PacienteAgendamento::factory()->create([
             'horario_disponivel_uuid' => $horarioDisponivel->uuid,
             'paciente_uuid' => $paciente->uuid,
             'assinatura_confirmacao' => Ulid::generate(),
@@ -59,7 +59,7 @@ class ValidacaoDeReservaJobTest extends TestCase
             'uuid' => $horarioDisponivel->uuid,
             'status' => StatusHorarioEnum::CONFIRMADO->value,
         ]);
-        $this->assertDatabaseHas('paciente_horarios_disponiveis', [
+        $this->assertDatabaseHas('paciente_agendamentos', [
             'horario_disponivel_uuid' => $horarioDisponivel->uuid,
             'paciente_uuid' => $paciente->uuid,
             'assinatura_confirmacao' => $reserva->assinatura_confirmacao,
@@ -76,7 +76,7 @@ class ValidacaoDeReservaJobTest extends TestCase
         $horarioDisponivel = HorarioDisponivel::factory()->create([
             'status' => StatusHorarioEnum::INDISPONIVEL->value,
         ]);
-        $reserva = PacienteHorarioDisponivel::factory()->create([
+        $reserva = PacienteAgendamento::factory()->create([
             'horario_disponivel_uuid' => $horarioDisponivel->uuid,
             'paciente_uuid' => $paciente->uuid,
             'assinatura_confirmacao' => Ulid::generate(),
@@ -107,7 +107,7 @@ class ValidacaoDeReservaJobTest extends TestCase
         $horarioDisponivel = HorarioDisponivel::factory()->create([
             'status' => StatusHorarioEnum::RESERVADO->value,
         ]);
-        $reserva = PacienteHorarioDisponivel::factory()->create([
+        $reserva = PacienteAgendamento::factory()->create([
             'horario_disponivel_uuid' => $horarioDisponivel->uuid,
             'paciente_uuid' => $pacienteDaReserva->uuid,
             'assinatura_confirmacao' => Ulid::generate(),
@@ -137,7 +137,7 @@ class ValidacaoDeReservaJobTest extends TestCase
         $horarioDisponivel = HorarioDisponivel::factory()->create([
             'status' => StatusHorarioEnum::RESERVADO->value,
         ]);
-        $reserva = PacienteHorarioDisponivel::factory()->create([
+        $reserva = PacienteAgendamento::factory()->create([
             'horario_disponivel_uuid' => $horarioDisponivel->uuid,
             'paciente_uuid' => $paciente->uuid,
             'assinatura_confirmacao' => Ulid::generate(),
@@ -170,7 +170,7 @@ class ValidacaoDeReservaJobTest extends TestCase
         $horarioDisponivel = HorarioDisponivel::factory()->create([
             'status' => StatusHorarioEnum::RESERVADO->value,
         ]);
-        $reserva = PacienteHorarioDisponivel::factory()->create([
+        $reserva = PacienteAgendamento::factory()->create([
             'horario_disponivel_uuid' => $horarioDisponivel->uuid,
             'paciente_uuid' => $paciente->uuid,
             'assinatura_confirmacao' => Ulid::generate(),
@@ -199,7 +199,7 @@ class ValidacaoDeReservaJobTest extends TestCase
             'uuid' => $horarioDisponivel->uuid,
             'status' => StatusHorarioEnum::RESERVADO->value,
         ]);
-        $this->assertDatabaseHas('paciente_horarios_disponiveis', [
+        $this->assertDatabaseHas('paciente_agendamentos', [
             'horario_disponivel_uuid' => $horarioDisponivel->uuid,
             'paciente_uuid' => $paciente->uuid,
             'assinatura_confirmacao' => $reserva->assinatura_confirmacao,

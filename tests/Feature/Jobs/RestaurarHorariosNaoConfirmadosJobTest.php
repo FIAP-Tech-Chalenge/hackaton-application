@@ -6,7 +6,7 @@ use App\Enums\StatusHorarioEnum;
 use App\Jobs\Agendamento\RestaurarHorariosNaoConfirmadosJob;
 use App\Models\HorarioDisponivel;
 use App\Models\Paciente;
-use App\Models\PacienteHorarioDisponivel;
+use App\Models\PacienteAgendamento;
 use App\Modules\Pacientes\Entities\ReservaEntity;
 use App\Modules\Shared\Entities\HorarioReservadoEntity;
 use App\Modules\Shared\Entities\MedicoEntity;
@@ -33,7 +33,7 @@ class RestaurarHorariosNaoConfirmadosJobTest extends TestCase
         $horarioDisponivel = HorarioDisponivel::factory()->create([
             'status' => StatusHorarioEnum::RESERVADO->value,
         ]);
-        $reserva = PacienteHorarioDisponivel::factory()->create([
+        $reserva = PacienteAgendamento::factory()->create([
             'horario_disponivel_uuid' => $horarioDisponivel->uuid,
             'paciente_uuid' => $pacienteDaReserva->uuid,
             'assinatura_confirmacao' => Ulid::generate(),
@@ -77,7 +77,7 @@ class RestaurarHorariosNaoConfirmadosJobTest extends TestCase
             'status' => StatusHorarioEnum::DISPONIVEL->value,
         ]);
 
-        $this->assertDatabaseMissing('paciente_horarios_disponiveis', [
+        $this->assertDatabaseMissing('paciente_agendamentos', [
             'horario_disponivel_uuid' => $horarioDisponivel->uuid,
             'paciente_uuid' => $pacienteDaReserva->uuid,
             'assinatura_confirmacao' => $reserva->assinatura_confirmacao,

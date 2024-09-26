@@ -5,7 +5,7 @@ namespace App\Jobs\Agendamento;
 use App\Enums\StatusHorarioEnum;
 use App\Models\HorarioDisponivel;
 use App\Models\Paciente;
-use App\Models\PacienteHorarioDisponivel;
+use App\Models\PacienteAgendamento;
 use App\Modules\Pacientes\Entities\ReservaEntity;
 use App\Modules\Shared\Entities\HorarioEntity;
 use App\Modules\Shared\Entities\HorarioReservadoEntity;
@@ -36,7 +36,7 @@ class RestaurarHorariosNaoConfirmadosJob implements ShouldQueue
                 ->update([
                     'status' => StatusHorarioEnum::DISPONIVEL->value
                 ]);
-            PacienteHorarioDisponivel::query()
+            PacienteAgendamento::query()
                 ->where(
                     'horario_disponivel_uuid',
                     '=',

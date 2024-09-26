@@ -4,13 +4,13 @@ namespace Database\Factories;
 
 use App\Models\HorarioDisponivel;
 use App\Models\Paciente;
-use App\Models\PacienteHorarioDisponivel;
+use App\Models\PacienteAgendamento;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends Factory<PacienteHorarioDisponivel>
+ * @extends Factory<PacienteAgendamento>
  */
-class PacienteHorarioDisponivelFactory extends Factory
+class PacienteAgendamentoFactory extends Factory
 {
     /**
      * Define the model's default state.

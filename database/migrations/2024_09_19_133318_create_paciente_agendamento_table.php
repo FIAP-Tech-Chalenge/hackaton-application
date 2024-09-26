@@ -10,7 +10,7 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('paciente_horarios_disponiveis', function (Blueprint $table) {
+        Schema::create('paciente_agendamentos', function (Blueprint $table) {
             $table->foreignUuid('horario_disponivel_uuid')
                 ->primary()
                 ->constrained('horarios_disponiveis', 'uuid')
@@ -31,6 +31,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('paciente_horarios_disponiveis');
+        Schema::dropIfExists('paciente_agendamentos');
     }
 };

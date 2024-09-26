@@ -46,7 +46,7 @@ class ReservarHorarioE2eTest extends TestCase
 
         // Assert
         $response->assertCreated();
-        $this->assertDatabaseHas('paciente_horarios_disponiveis', [
+        $this->assertDatabaseHas('paciente_agendamentos', [
             'horario_disponivel_uuid' => $horarioDisponivel->uuid,
             'paciente_uuid' => $paciente->uuid,
         ]);

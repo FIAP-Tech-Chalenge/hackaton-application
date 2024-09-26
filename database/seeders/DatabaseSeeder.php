@@ -8,7 +8,7 @@ use App\Enums\TipoUsuarioEnum;
 use App\Models\HorarioDisponivel;
 use App\Models\Medico;
 use App\Models\Paciente;
-use App\Models\PacienteHorarioDisponivel;
+use App\Models\PacienteAgendamento;
 use App\Models\User;
 use App\Modules\Medicos\Entities\Horarios\IntervaloEntity;
 use App\Modules\Medicos\Entities\Horarios\PeriodoAtendimento;
@@ -102,7 +102,7 @@ class DatabaseSeeder extends Seeder
             ->where('medico_uuid', '=', $this->medico->uuid)
             ->first();
 
-        PacienteHorarioDisponivel::factory()->create([
+        PacienteAgendamento::factory()->create([
             'horario_disponivel_uuid' => $horarioDisponivel->uuid,
             'paciente_uuid' => $this->paciente->uuid,
             'assinatura_confirmacao' => Ulid::generate(),

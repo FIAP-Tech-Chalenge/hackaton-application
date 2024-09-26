@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class PacienteHorarioDisponivel extends Model
+class PacienteAgendamento extends Model
 {
     use HasFactory;
     use HasUuids;
@@ -15,7 +15,8 @@ class PacienteHorarioDisponivel extends Model
     public $incrementing = false;
     protected $primaryKey = 'horario_disponivel_uuid';
     protected $keyType = 'string';
-    protected $table = 'paciente_horarios_disponiveis';
+    protected $table = 'paciente_agendamentos';
+
 
     protected $fillable = [
         'horario_disponivel_uuid',
