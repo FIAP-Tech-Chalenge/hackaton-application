@@ -9,6 +9,12 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
+/**
+ * @property mixed $paciente
+ * @property mixed $medico
+ * @method $paciente
+ * @method $medico
+ */
 class User extends Authenticatable
 {
     use HasFactory;
