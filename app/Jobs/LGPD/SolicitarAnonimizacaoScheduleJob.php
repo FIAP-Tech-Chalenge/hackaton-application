@@ -2,7 +2,10 @@
 
 namespace App\Jobs\LGPD;
 
+use App\Enums\StatusAnonimizacaoEnum;
+use App\Models\SolicitacaoAnonimizacao;
 use App\Models\User;
+use App\Notifications\LGPD\SolicitacaoDeAnonimizacaoRealizadaMail;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Foundation\Queue\Queueable;
@@ -31,6 +34,12 @@ class SolicitarAnonimizacaoScheduleJob implements ShouldQueue
     {
         DB::transaction(function () {
             $this->anonimizarCliente();
+            SolicitacaoAnonimizacao::query()
+                ->where('user_id', $this->user->id)
+                ->update([
+                    'status' => StatusAnonimizacaoEnum::ANONIMIZADO->value,
+                ]);
+            $this->user->notify(new SolicitacaoDeAnonimizacaoRealizadaMail());
         });
     }
 

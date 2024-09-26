@@ -7,7 +7,9 @@ use App\Jobs\LGPD\SolicitarAnonimizacaoScheduleJob;
 use App\Models\Medico;
 use App\Models\Paciente;
 use App\Models\User;
+use App\Notifications\LGPD\SolicitacaoDeAnonimizacaoRealizadaMail;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Illuminate\Support\Facades\Notification;
 use PHPUnit\Framework\Attributes\Group;
 use Tests\TestCase;
 
@@ -19,6 +21,7 @@ class SolicitarAnonimizacaoScheduleJobTest extends TestCase
     public function test_deve_anonimizar_o_usuario_medico()
     {
         // Arrange
+        Notification::fake();
         $user = User::factory()->create([
             'tipo' => TipoUsuarioEnum::MEDICO->value,
         ]);
@@ -40,11 +43,13 @@ class SolicitarAnonimizacaoScheduleJobTest extends TestCase
             'cpf' => SolicitarAnonimizacaoScheduleJob::$maskCpf,
             'crm' => SolicitarAnonimizacaoScheduleJob::$maskCrm,
         ]);
+        Notification::assertSentTo([$user], SolicitacaoDeAnonimizacaoRealizadaMail::class);
     }
 
     public function test_deve_anonimizar_o_usuario_paciente()
     {
         // Arrange
+        Notification::fake();
         $user = User::factory()->create([
             'tipo' => TipoUsuarioEnum::PACIENTE->value,
         ]);
@@ -65,5 +70,6 @@ class SolicitarAnonimizacaoScheduleJobTest extends TestCase
             'user_id' => $user->id,
             'cpf' => SolicitarAnonimizacaoScheduleJob::$maskCpf,
         ]);
+        Notification::assertSentTo([$user], SolicitacaoDeAnonimizacaoRealizadaMail::class);
     }
 }
