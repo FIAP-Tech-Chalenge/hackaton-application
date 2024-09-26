@@ -1137,7 +1137,7 @@
                 ]
             }
         },
-        "/api/v1/medicos/lgpd/solicitar-anonimizacao": {
+        "/api/v1/pacientes/lgpd/solicitar-anonimizacao": {
             "post": {
                 "summary": "Solicitar Anonimização de Dados (Medico)",
                 "operationId": "solicitarAnonimizacaoMedico",
