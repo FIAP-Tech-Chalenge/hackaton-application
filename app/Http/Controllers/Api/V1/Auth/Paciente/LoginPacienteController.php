@@ -4,11 +4,12 @@ namespace App\Http\Controllers\Api\V1\Auth\Paciente;
 
 use App\Enums\TipoUsuarioEnum;
 use App\Http\Controllers\Controller;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class LoginPacienteController extends Controller
 {
-    public function __invoke(Request $request)
+    public function __invoke(Request $request): JsonResponse
     {
         $request->validate([
             'email' => 'required|email',

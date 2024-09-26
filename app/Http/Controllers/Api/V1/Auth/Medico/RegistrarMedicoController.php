@@ -6,6 +6,7 @@ use App\Enums\TipoUsuarioEnum;
 use App\Http\Controllers\Controller;
 use App\Infra\Actions\Medicos\RegistrarMedicoAction;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class RegistrarMedicoController extends Controller
 {
@@ -19,13 +20,15 @@ class RegistrarMedicoController extends Controller
             'password' => ['required', 'min:6'],
         ]);
 
-        $user = RegistrarMedicoAction::execute(
-            nome: $request->nome,
-            cpf: $request->cpf,
-            crm: $request->crm,
-            email: $request->email,
-            password: $request->password
-        );
+        $user = DB::transaction(function () use ($request) {
+            return RegistrarMedicoAction::execute(
+                nome: $request->nome,
+                cpf: $request->cpf,
+                crm: $request->crm,
+                email: $request->email,
+                password: $request->password
+            );
+        });
 
         $token = $user->createToken(TipoUsuarioEnum::MEDICO->value)->plainTextToken;
 

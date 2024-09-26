@@ -20,7 +20,7 @@ class HorariosDisponiveisMapper implements HorariosDisponiveisMapperInterface
         return HorarioDisponivel::query()
             ->where('medico_uuid', '=', $medicoUuid->toString())
             ->where('status', '=', StatusHorarioEnum::DISPONIVEL->value)
-            ->where('data', '=', $data)
+            ->whereDate('data', '=', $data)
             ->exists();
     }
 

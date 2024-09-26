@@ -170,6 +170,75 @@ class AlterarHorariosE2eTest extends TestCase
         $response->assertJsonCount(count($horariosGerados), 'horarios_cancelados');
     }
 
+    public function test_deve_retornar_erro_quando_ocorrer_logic_exception()
+    {
+        // Arrange
+        $user = User::factory()->create([
+            'tipo' => TipoUsuarioEnum::MEDICO->value,
+        ]);
+        $this->actingAs($user);
+
+        $medico = Medico::factory()->create([
+            'user_id' => $user->id,
+        ]);
+        $dataDoAgendamento = now()->startOfDay();
+        $intervalosIndisponiveis = new IntervalosCollection();
+        $intervalosIndisponiveis->add(
+            new IntervaloEntity(
+                inicioDoIntervalo: Carbon::parse('12:00'),
+                finalDoIntervalo: Carbon::parse('14:00'),
+                statusHorarioEnum: StatusHorarioEnum::INDISPONIVEL
+            )
+        );
+        $periodoAtendimento = new PeriodoAtendimento(Carbon::parse('08:00'), Carbon::parse('18:00'));
+        $periodos = $periodoAtendimento->montarAgendaDoDia(
+            intervalosDeAgendamentosEnum: IntervalosDeAgendamentosEnum::SESSENTA_MINUTOS,
+            intervalosIndisponiveis: $intervalosIndisponiveis
+        );
+        foreach ($periodos as $periodo) {
+            HorarioDisponivel::factory()->create([
+                'uuid' => Uuid::uuid7()->toString(),
+                'medico_uuid' => $medico->uuid,
+                'data' => $dataDoAgendamento->format('Y-m-d'),
+                'hora_inicio' => $periodo->inicioDoIntervalo->format('Y-m-d H:i'),
+                'hora_fim' => $periodo->finalDoIntervalo->format('Y-m-d H:i'),
+                'status' => $periodo->statusHorarioEnum->value,
+            ]);
+        }
+
+        // Act
+        $response = $this->postJson(
+            route('medicos.horarios.alterar'),
+            [
+                'data' => $dataDoAgendamento->format('Y-m-d'),
+                'novo_intervalo' => [
+                    'hora_inicio' => $dataDoAgendamento->format('Y-m-d') . ' 10:00',
+                    'hora_fim' => $dataDoAgendamento->format('Y-m-d') . ' 14:00',
+                ],
+                'horarios_para_cancelar' => [],
+            ],
+            [
+                'Accept' => 'application/json',
+                'Content-Type' => 'application/json',
+            ]
+        );
+
+        // Assert
+        $response->assertStatus(422);
+        $response->assertJsonStructure([
+            'message',
+            'errors' => [
+                'conflitos' => [
+                    '*' => [
+                        'inicioDoIntervalo',
+                        'finalDoIntervalo',
+                        'statusHorarioEnum',
+                    ]
+                ],
+            ]
+        ]);
+    }
+
     protected function setUp(): void
     {
         parent::setUp();

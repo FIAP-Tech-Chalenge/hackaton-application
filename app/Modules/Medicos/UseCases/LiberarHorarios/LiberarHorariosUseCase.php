@@ -33,7 +33,7 @@ readonly class LiberarHorariosUseCase
         //verificar se o médico já tem agenda para o dia
         $possuiAgendaNoDia = $this->horariosDisponiveisMapper->possuiAgendaNoDia($medicoUuid, $data);
         if ($possuiAgendaNoDia) {
-            throw new MedicoJaPossuiAgendaNoDiaException('Já existe uma agenda para o dia');
+            throw new MedicoJaPossuiAgendaNoDiaException('Já existe uma agenda para o dia', 422);
         }
 
         // montagem da agenda do dia com os intervalos disponíveis
