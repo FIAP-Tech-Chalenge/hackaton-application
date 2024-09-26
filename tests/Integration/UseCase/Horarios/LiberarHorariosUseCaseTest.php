@@ -73,7 +73,7 @@ class LiberarHorariosUseCaseTest extends TestCase
                 $indisponivel->finalDoIntervalo
             )
                 ->where('medico_uuid', $medico->uuid)
-                ->where('data', $dataDaAgenda);
+                ->whereDate('data', $dataDaAgenda);
 
             $this->assertFalse($horario->exists());
         }

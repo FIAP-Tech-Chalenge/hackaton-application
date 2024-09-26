@@ -98,4 +98,26 @@ class ListaDeHorariosDisponiveisTest extends TestCase
         // Assert
         $response->assertStatus(401);
     }
+
+    public function test_deve_retornar_erro_400_para_data_invalida(): void
+    {
+        // Arrange
+        $medicoFactory = Medico::factory()->create();
+        $user = User::factory()->create([
+            'tipo' => TipoUsuarioEnum::PACIENTE->value,
+        ]);
+        Paciente::factory()->create([
+            'user_id' => $user->id,
+        ]);
+        Sanctum::actingAs($user, ['paciente']);
+
+        // Act
+        $response = $this->getJson(route('pacientes.horarios.disponiveis', [
+            'medicoUuid' => $medicoFactory->uuid,
+            'data' => '2021-13-01',
+        ]));
+
+        // Assert
+        $response->assertStatus(400);
+    }
 }

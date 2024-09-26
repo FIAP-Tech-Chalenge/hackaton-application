@@ -14,7 +14,7 @@ class ListaHorariosDisponiveisService
     {
         return HorarioDisponivel::query()
             ->where('medico_uuid', $medicoUuid->toString())
-            ->where('data', $data)
+            ->whereDate('data', $data)
             ->whereIn('status', [
                 StatusHorarioEnum::DISPONIVEL->value,
                 StatusHorarioEnum::RESERVADO->value,
