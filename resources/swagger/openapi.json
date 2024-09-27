@@ -1142,7 +1142,7 @@
                 "summary": "Solicitar Anonimização de Dados (Medico)",
                 "operationId": "solicitarAnonimizacaoMedico",
                 "tags": [
-                    "Medico"
+                    "Paciente"
                 ],
                 "responses": {
                     "201": {
